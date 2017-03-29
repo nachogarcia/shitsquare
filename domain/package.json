@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --no-colors $(find test -name '*.js')"
+    "test": "mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
   },
   "author": "Nacho García",
   "license": "ISC",

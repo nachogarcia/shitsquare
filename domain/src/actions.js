@@ -1,3 +1,5 @@
+var reviews = require('./model/Review.js');
+
 class RegisterASiteAction{
 
   constructor(siteRepository) {
@@ -6,9 +8,25 @@ class RegisterASiteAction{
 
   run(site) {
     this.siteRepository.put(site);
-  }
+  };
+}
+
+class RegisterAReviewAction{
+
+  constructor(reviewRepository, clock) {
+    this.reviewRepository = reviewRepository;
+    this.clock = clock;
+  };
+
+  run(reviewData, site) {
+    let review = new reviews.Review(reviewData,this.clock.now());
+    site.addReview(review);
+    this.reviewRepository.put(review);
+    return review;
+  };
 }
 
 module.exports = {
-  RegisterASiteAction
+  RegisterASiteAction,
+  RegisterAReviewAction
 }

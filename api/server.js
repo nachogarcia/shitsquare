@@ -21,13 +21,17 @@ function getClosest(coord, opt, callback) {
   callback(null, sites);
 }
 
-//function registerAReview(reviewData, siteData) {
-//  let registerAReviewAction = factory.createRegisterAReviewAction();
-//  registerAReviewAction.run(reviewData, siteData);
-//}
+function registerAReview(args) {
+  let siteRepository = factory.createSiteRepository();
+  let site = siteRepository.findById(args.siteData.id);
+  console.log(site);
+  let reviewData = args.reviewData;
+  let registerAReviewAction = factory.createRegisterAReviewAction();
+  registerAReviewAction.run(reviewData, site);
+}
 
 server.expose('registerASite', registerASite);
 server.expose('getClosest', getClosest);
-//server.expose('RegisterAReview', registerAReview);
+server.expose('registerAReview', registerAReview);
 
 server.listen(8000, 'localhost');

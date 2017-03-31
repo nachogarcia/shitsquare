@@ -4,10 +4,21 @@ var client = rpc.Client.$create(8000, 'localhost');
 
 let siteData = {id: "A site", coordinate: {x: 1, y: 3}};
 let currentLocation = {x: 0, y: 0};
+let reviewData = {id: "A review"};
 
-client.call('registerASite', siteData);
-client.call('getClosest', currentLocation, (err, sites) => {
-  console.log(sites);
-});
+function main() {
 
-//client.call('RegisterAReview', "A Review", "A site");
+  client.call('registerASite', siteData);
+
+  client.call('getClosest', currentLocation, (err, closestSites) => {
+    client.call('registerAReview', {reviewData: reviewData, siteData: closestSites[0]});
+  });
+
+setTimeout( () => {
+  client.call('getClosest', currentLocation, (err, closestSites) => {
+    console.log(closestSites);
+  })}, 2000);
+
+}
+
+main();

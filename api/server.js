@@ -13,7 +13,7 @@ var server = rpc.Server.$create({
 function registerASite(siteData) {
   let registerASiteAction = factory.createRegisterASiteAction();
   registerASiteAction.run(siteData);
-  console.log(SiteData)
+  console.log(siteData)
 }
 
 //function registerAReview(reviewData, siteData) {
@@ -22,6 +22,6 @@ function registerASite(siteData) {
 //}
 
 server.expose('RegisterASite', registerASite);
-server.expose('RegisterAReview', registerAReview);
+//server.expose('RegisterAReview', registerAReview);
 
 server.listen(8000, 'localhost');

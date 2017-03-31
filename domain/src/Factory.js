@@ -27,7 +27,7 @@ class Factory {
 
   createRegisterASiteAction() {
     this.registerASiteAction = this.registerASiteAction || new actions.RegisterASiteAction( this.createSiteRepository() );
-    return this.SiteRepository;
+    return this.registerASiteAction;
   }
 }
 

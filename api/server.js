@@ -13,7 +13,12 @@ var server = rpc.Server.$create({
 function registerASite(siteData) {
   let registerASiteAction = factory.createRegisterASiteAction();
   registerASiteAction.run(siteData);
-  console.log(siteData)
+}
+
+function getClosest(coord, opt, callback) {
+  let siteRepository = factory.createSiteRepository();
+  let sites = siteRepository.getClosest(coord);
+  callback(null, sites);
 }
 
 //function registerAReview(reviewData, siteData) {
@@ -21,7 +26,8 @@ function registerASite(siteData) {
 //  registerAReviewAction.run(reviewData, siteData);
 //}
 
-server.expose('RegisterASite', registerASite);
+server.expose('registerASite', registerASite);
+server.expose('getClosest', getClosest);
 //server.expose('RegisterAReview', registerAReview);
 
 server.listen(8000, 'localhost');

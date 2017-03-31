@@ -6,10 +6,11 @@ describe('Register a Site Action', () => {
     let siteRepository = {put: () => {}};
     sinon.spy(siteRepository, 'put');
 
-    let site = new Site("A site");
+    let siteData = "A site"
+    let site = new Site(siteData);
     let registerASiteAction = new actions.RegisterASiteAction(siteRepository);
 
-    registerASiteAction.run(site);
+    registerASiteAction.run(siteData);
 
     expect(siteRepository.put).to.have.been.calledWith(site);
   });

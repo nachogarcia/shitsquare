@@ -1,3 +1,4 @@
+var Site = require('./model/Site.js');
 var Review = require('./model/Review.js');
 
 class RegisterASiteAction{
@@ -6,7 +7,8 @@ class RegisterASiteAction{
     this.siteRepository = siteRepository;
   };
 
-  run(site) {
+  run(siteData) {
+    let site = new Site(siteData);
     this.siteRepository.put(site);
   };
 }
@@ -19,7 +21,7 @@ class RegisterAReviewAction{
   };
 
   run(reviewData, site) {
-    let review = new Review(reviewData,this.clock.now());
+    let review = new Review(reviewData, this.clock.now());
     site.addReview(review);
     this.reviewRepository.put(review);
     return review;

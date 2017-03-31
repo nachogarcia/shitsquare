@@ -1,5 +1,5 @@
 class Clock{
-  now() { return Date.now(); }
+  now() { return Date.getTime(); }
 }
 
 module.exports = Clock

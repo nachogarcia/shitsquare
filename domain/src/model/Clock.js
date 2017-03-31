@@ -1,5 +1,8 @@
 class Clock{
-  now() { return Date.getTime(); }
+  now() {
+    let date = new Date();
+    return date.toISOString();
+  }
 }
 
 module.exports = Clock

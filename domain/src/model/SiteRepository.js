@@ -8,7 +8,9 @@ class SiteRepository{
   };
 
   put(site) {
-    this.sites.push(site);
+    let toUpdate = this.findById(site.id);
+    if (toUpdate) toUpdate = site;
+    else this.sites.push(site);
   };
 
   all(){

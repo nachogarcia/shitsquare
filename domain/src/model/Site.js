@@ -1,4 +1,4 @@
-var coordinates = require('./Coordinate.js');
+var Coordinate = require('./Coordinate.js');
 
 
 class Site{
@@ -14,11 +14,9 @@ class Site{
 
   static sortSites(currentCoordinate, sites) {
     sites.sort( (a, b) => {
-      return coordinates.Coordinate.compare(currentCoordinate, a.coordinate, b.coordinate);
+      return Coordinate.compare(currentCoordinate, a.coordinate, b.coordinate);
     });
   }
 }
 
-module.exports = {
-  Site
-}
+module.exports = Site

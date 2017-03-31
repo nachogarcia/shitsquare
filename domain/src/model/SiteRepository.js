@@ -1,4 +1,4 @@
-var sites = require('./Site.js');
+var Site = require('./Site.js');
 
 
 class SiteRepository{
@@ -17,12 +17,10 @@ class SiteRepository{
 
   getClosest(coord) {
     let allSites = this.all();
-    sites.Site.sortSites(coord,allSites);
+    Site.sortSites(coord,allSites);
     return allSites;
   }
 
 }
 
-module.exports = {
-  SiteRepository
-}
+module.exports = SiteRepository

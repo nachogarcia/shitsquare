@@ -13,6 +13,4 @@ class Coordinate {
   }
 }
 
-module.exports = {
-  Coordinate
-}
+module.exports = Coordinate

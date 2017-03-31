@@ -1,18 +1,18 @@
-var repositories = require('../../src/model/SiteRepository.js');
+var SiteRepository = require('../../src/model/SiteRepository.js');
 var actions = require('../../src/actions.js');
-var sites = require('../../src/model/Site.js');
-var coordinates = require('../../src/model/Coordinate.js');
+var Site = require('../../src/model/Site.js');
+var Coordinate = require('../../src/model/Coordinate.js');
 
 
 describe('Site Repository', () => {
   let siteRepository;
 
   beforeEach( () => {
-   siteRepository = new repositories.SiteRepository()
+   siteRepository = new SiteRepository()
   });
 
   it('Stores a site', () => {
-    let site = new sites.Site("A site", new coordinates.Coordinate(0,0));
+    let site = new Site("A site", new Coordinate(0,0));
 
     siteRepository.put(site);
 
@@ -21,10 +21,10 @@ describe('Site Repository', () => {
   });
 
   it('returns the closest sites in order', () => {
-    let currentPlace = new coordinates.Coordinate(0,0);
-    let closestSite = new sites.Site("1", new coordinates.Coordinate(1,1));
-    let middleSite = new sites.Site("2", new coordinates.Coordinate(-3,10));
-    let farthestSite = new sites.Site("3", new coordinates.Coordinate(100,-100));
+    let currentPlace = new Coordinate(0,0);
+    let closestSite = new Site("1", new Coordinate(1,1));
+    let middleSite = new Site("2", new Coordinate(-3,10));
+    let farthestSite = new Site("3", new Coordinate(100,-100));
     siteRepository.put(farthestSite);
     siteRepository.put(closestSite);
     siteRepository.put(middleSite);

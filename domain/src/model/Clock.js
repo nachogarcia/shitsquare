@@ -2,6 +2,4 @@ class Clock{
   now() { return Date.now(); }
 }
 
-module.exports = {
-  Clock
-}
+module.exports = Clock

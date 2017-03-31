@@ -1,5 +1,5 @@
 var actions = require('../../src/actions.js');
-var sites = require('../../src/model/Site.js');
+var Site = require('../../src/model/Site.js');
 
 describe('Register a Review Action', () => {
   let reviewRepository;
@@ -11,7 +11,7 @@ describe('Register a Review Action', () => {
 
   beforeEach( () => {
     reviewData = "An id";
-    site = new sites.Site("An id");
+    site = new Site("An id");
 
     reviewRepository = {put: () => {}};
     sinon.spy(reviewRepository, 'put');

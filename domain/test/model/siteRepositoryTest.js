@@ -12,7 +12,7 @@ describe('Site Repository', () => {
   });
 
   it('Stores a site', () => {
-    let site = new Site("A site", new Coordinate(0,0));
+    let site = new Site({id: "A site", coordinate: new Coordinate(0,0)});
 
     siteRepository.put(site);
 
@@ -22,9 +22,9 @@ describe('Site Repository', () => {
 
   it('returns the closest sites in order', () => {
     let currentPlace = new Coordinate(0,0);
-    let closestSite = new Site("1", new Coordinate(1,1));
-    let middleSite = new Site("2", new Coordinate(-3,10));
-    let farthestSite = new Site("3", new Coordinate(100,-100));
+    let closestSite = new Site({id: "1", coordinate: new Coordinate(1,1)});
+    let middleSite = new Site({id: "2", coordinate: new Coordinate(-3,10)});
+    let farthestSite = new Site({id: "3", coordinate: new Coordinate(100,-100)});
     siteRepository.put(farthestSite);
     siteRepository.put(closestSite);
     siteRepository.put(middleSite);

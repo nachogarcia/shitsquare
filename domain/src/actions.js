@@ -9,6 +9,7 @@ class RegisterASiteAction{
 
   run(siteData) {
     let site = new Site(siteData);
+    console.log(site);
     this.siteRepository.put(site);
   };
 }

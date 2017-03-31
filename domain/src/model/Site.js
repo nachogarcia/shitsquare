@@ -2,9 +2,9 @@ var Coordinate = require('./Coordinate.js');
 
 
 class Site{
-  constructor(id,coordinate){
-    this.id = id;
-    this.coordinate = coordinate;
+  constructor(siteData){
+    this.id = siteData.id;
+    this.coordinate = siteData.coordinate;
     this.reviews = [];
   }
 

@@ -11,12 +11,22 @@ describe('Site Repository', () => {
    siteRepository = new SiteRepository()
   });
 
-  it('Stores a site', () => {
+  it('stores a site', () => {
     let site = new Site({id: "A site", coordinate: new Coordinate(0,0)});
 
     siteRepository.put(site);
 
     let storedSite = siteRepository.all()[0];
+    expect(storedSite).to.equal(site);
+  });
+
+  it('finds by id', () => {
+    let id = "1A";
+    let site = new Site({id: id, coordinate: new Coordinate(0,0)});
+
+    siteRepository.put(site);
+
+    let storedSite = siteRepository.findById(id);
     expect(storedSite).to.equal(site);
   });
 

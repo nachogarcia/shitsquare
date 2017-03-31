@@ -23,6 +23,12 @@ class SiteRepository{
     return allSites;
   }
 
+  findById(id){
+    for (let site of this.sites) {
+      if (site.id == id) return site;
+    }
+  }
+
 }
 
 module.exports = SiteRepository

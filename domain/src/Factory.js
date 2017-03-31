@@ -1,6 +1,6 @@
-var SiteRepository = require('./SiteRepository.js');
-var Clock = require('./Clock.js');
-var actions = require('../actions.js');
+var SiteRepository = require('./model/SiteRepository.js');
+var Clock = require('./model/Clock.js');
+var actions = require('./actions.js');
 
 
 class Factory {

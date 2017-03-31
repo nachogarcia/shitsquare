@@ -6,7 +6,7 @@ var Coordinate = require('../../src/model/Coordinate.js');
 describe('A Site', () => {
   it('registers a review', () => {
     let site = new Site({id: "A site", coordinate: new Coordinate(1,-1)});
-    let review = new Review("A review");
+    let review = new Review({id: "A review", time:"Some time"});
 
     site.addReview(review);
 

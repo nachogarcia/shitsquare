@@ -9,7 +9,6 @@ describe('Register a Site Action', () => {
 
     let siteData = {id: "A site", coordinate: new Coordinate(0,0)};
     let site = new Site(siteData);
-    console.log(site);
     let registerASiteAction = new actions.RegisterASiteAction(siteRepository);
 
     registerASiteAction.run(siteData);

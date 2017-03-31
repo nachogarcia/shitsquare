@@ -1,5 +1,7 @@
 var actions = require('../../src/actions.js');
 var Site = require('../../src/model/Site.js');
+var Coordinate = require('../../src/model/Coordinate.js');
+var Review = require('../../src/model/Review.js');
 
 describe('Register a Review Action', () => {
   let reviewRepository;
@@ -10,25 +12,25 @@ describe('Register a Review Action', () => {
   let review;
 
   beforeEach( () => {
-    reviewData = "An id";
-    site = new Site("An id");
-
-    reviewRepository = {put: () => {}};
-    sinon.spy(reviewRepository, 'put');
-
     time = "An irrelevant time";
+    reviewData = {id: "An id", time: time};
+    site = new Site({id: "An id", coordinate: new Coordinate(0,0)});
+
+    siteRepository = {put: () => {}};
+    sinon.spy(siteRepository, 'put');
+
     let clock = {now: () => {}};
     sinon.stub(clock,"now").callsFake( () => {
       return time;
     });
 
-    registerAReviewAction = new actions.RegisterAReviewAction(reviewRepository, clock);
+    registerAReviewAction = new actions.RegisterAReviewAction(siteRepository, clock);
 
     review = registerAReviewAction.run(reviewData, site);
   });
 
   it('adds the review to the repository', () => {
-    expect(reviewRepository.put).to.have.been.calledWith(review);
+    expect(siteRepository.put).to.have.been.calledWith(site);
   });
 
   it('adds the review to the site', () => {

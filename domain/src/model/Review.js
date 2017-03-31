@@ -1,7 +1,7 @@
 class Review{
-  constructor(id, time){
-    this.id = id;
-    this.time = time;
+  constructor(reviewData){
+    this.id = reviewData.id;
+    this.time = reviewData.time;
   }
 }
 

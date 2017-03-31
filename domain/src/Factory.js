@@ -15,13 +15,8 @@ class Factory {
     return this.siteRepository;
   }
 
-  createReviewRepository() {
-    this.reviewRepository = this.reviewRepository || new ReviewRepository();
-    return this.reviewRepository;
-  }
-
   createRegisterAReviewAction() {
-    this.registerAReviewAction = this.registerAReviewAction || new actions.RegisterAReviewAction( this.createReviewRepository(), this.createClock() );
+    this.registerAReviewAction = this.registerAReviewAction || new actions.RegisterAReviewAction( this.createSiteRepository(), this.createClock() );
     return this.registerAReviewAction;
   }
 

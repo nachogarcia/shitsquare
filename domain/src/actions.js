@@ -9,22 +9,22 @@ class RegisterASiteAction{
 
   run(siteData) {
     let site = new Site(siteData);
-    console.log(site);
     this.siteRepository.put(site);
   };
 }
 
 class RegisterAReviewAction{
 
-  constructor(reviewRepository, clock) {
-    this.reviewRepository = reviewRepository;
+  constructor(siteRepository, clock) {
+    this.siteRepository = siteRepository;
     this.clock = clock;
   };
 
   run(reviewData, site) {
-    let review = new Review(reviewData, this.clock.now());
+    reviewData.time = this.clock.now();
+    let review = new Review(reviewData);
     site.addReview(review);
-    this.reviewRepository.put(review);
+    this.siteRepository.put(site);
     return review;
   };
 }

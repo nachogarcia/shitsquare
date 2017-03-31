@@ -24,7 +24,6 @@ function getClosest(coord, opt, callback) {
 function registerAReview(args) {
   let siteRepository = factory.createSiteRepository();
   let site = siteRepository.findById(args.siteData.id);
-  console.log(site);
   let reviewData = args.reviewData;
   let registerAReviewAction = factory.createRegisterAReviewAction();
   registerAReviewAction.run(reviewData, site);

@@ -17,10 +17,11 @@ class SiteRepository{
     return this.sites;
   };
 
-  getClosest(coord) {
+  getClosest(coord, numberOfSites) {
     let allSites = this.all();
+    numberOfSites = Math.min(allSites.length, numberOfSites);
     Site.sortSites(coord,allSites);
-    return allSites;
+    return allSites.slice(0, numberOfSites);
   };
 
   findById(id){

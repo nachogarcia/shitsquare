@@ -17,7 +17,7 @@ function registerASite(siteData) {
 
 function getClosest(coord, opt, callback) {
   let siteRepository = factory.createSiteRepository();
-  let sites = siteRepository.getClosest(coord);
+  let sites = siteRepository.getClosest(coord,10);
   callback(null, sites);
 }
 

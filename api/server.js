@@ -22,11 +22,8 @@ function getClosest(coord, opt, callback) {
 }
 
 function registerAReview(args) {
-  let siteRepository = factory.createSiteRepository();
-  let site = siteRepository.findById(args.siteData.id);
-  let reviewData = args.reviewData;
   let registerAReviewAction = factory.createRegisterAReviewAction();
-  registerAReviewAction.run(reviewData, site);
+  registerAReviewAction.run(args.reviewData, args.siteData.id);
 }
 
 server.expose('registerASite', registerASite);

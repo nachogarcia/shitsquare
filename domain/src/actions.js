@@ -20,7 +20,8 @@ class RegisterAReviewAction{
     this.clock = clock;
   };
 
-  run(reviewData, site) {
+  run(reviewData, siteId) {
+    let site = this.siteRepository.findById(siteId);
     reviewData.time = this.clock.now();
     let review = new Review(reviewData);
     site.addReview(review);

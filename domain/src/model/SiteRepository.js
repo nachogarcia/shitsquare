@@ -21,13 +21,13 @@ class SiteRepository{
     let allSites = this.all();
     Site.sortSites(coord,allSites);
     return allSites;
-  }
+  };
 
   findById(id){
     for (let site of this.sites) {
       if (site.id == id) return site;
     }
-  }
+  };
 
 }
 

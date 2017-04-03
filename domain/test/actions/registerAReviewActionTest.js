@@ -16,7 +16,7 @@ describe('Register a Review Action', () => {
     reviewData = {id: "An id", time: time};
     site = new Site({id: "An id", coordinate: new Coordinate(0,0)});
 
-    siteRepository = {put: () => {}};
+    siteRepository = {put: () => {}, findById: () => {return site;}};
     sinon.spy(siteRepository, 'put');
 
     let clock = {now: () => {}};
@@ -26,7 +26,7 @@ describe('Register a Review Action', () => {
 
     registerAReviewAction = new actions.RegisterAReviewAction(siteRepository, clock);
 
-    review = registerAReviewAction.run(reviewData, site);
+    review = registerAReviewAction.run(reviewData, site.id);
   });
 
   it('adds the review to the repository', () => {

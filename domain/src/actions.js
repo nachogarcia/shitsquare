@@ -10,6 +10,7 @@ class RegisterASiteAction{
   run(siteData) {
     let site = new Site(siteData);
     this.siteRepository.put(site);
+    return site
   };
 }
 

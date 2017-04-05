@@ -28,7 +28,7 @@ export default {
     },
 
     registerASite () {
-      let siteData = { id: "A site", coordinate: {x: 0, y: 0} }
+      let siteData = { name: "A site", coordinate: {x: 0, y: 0} }
 
       sendRegisterASite(siteData).then((response) => {
         console.log("Added site", response.body.result)
@@ -36,8 +36,8 @@ export default {
     },
 
     addReview () {
-      let siteData = { id: "A site", coordinate: {x: 0, y: 0} }
-      let reviewData = { }
+      let siteData = { }
+      let reviewData = { author: "Someone", score: 5 }
 
       sendAddReview(siteData, reviewData).then((response) => {
         console.log("Added Review", response.body.result)

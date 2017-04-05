@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { sendRegisterASite, sendGetClosest } from "../actions.js"
 export default {
   name: 'hello',
   data () {
@@ -16,54 +17,20 @@ export default {
   },
   methods: {
     getClosest () {
-
-      const url = 'http://localhost:8000/api'
-      let method = 'getClosest'
-      let id = '2'
-      let params = { coordinate: {x: 0, y: 0} }
-
-      let body = { method: method, params: params, id: id }
-
-      let fetchData = {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
       let self = this
-      fetch(url, fetchData)
-      .then((response) => {
-        response.json().then((response) => {
-          self.msg = response.body.result
-        })
-      });
+      let coordinate = {x: 0, y: 0}
+
+      sendGetClosest(coordinate).then((response) => {
+        self.msg = response.body.result
+      })
     },
 
     registerASite () {
-      const url = 'http://localhost:8000/api'
-      let method = 'registerASite'
-      let id = '1'
-      let params = { id: "A site", coordinate: {x: 0, y: 0} }
+      let siteData = { id: "A site", coordinate: {x: 0, y: 0} }
 
-      let body = { method: method, params: params, id: id }
-
-      let fetchData = {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-
-      fetch(url, fetchData)
-      .then((response) => {
-        response.json().then((response) => {
-          console.log("Added site", response.body.result)
-        })
-      });
+      sendRegisterASite(siteData).then((response) => {
+        console.log("Added site", response.body.result)
+      })
     }
   }
 }

@@ -3,11 +3,13 @@
     <h1>{{ msg }}</h1>
     <button @click="getClosest">Recargar</button>
     <button @click="registerASite">Registrar sitio</button>
+    <button @click="addReview">Añadir Review</button>
   </div>
 </template>
 
 <script>
-import { sendRegisterASite, sendGetClosest } from "../actions.js"
+import { sendRegisterASite, sendGetClosest, sendAddReview } from "../actions.js"
+
 export default {
   name: 'hello',
   data () {
@@ -31,7 +33,17 @@ export default {
       sendRegisterASite(siteData).then((response) => {
         console.log("Added site", response.body.result)
       })
+    },
+
+    addReview () {
+      let siteData = { id: "A site", coordinate: {x: 0, y: 0} }
+      let reviewData = { }
+
+      sendAddReview(siteData, reviewData).then((response) => {
+        console.log("Added Review", response.body.result)
+      })
     }
+
   }
 }
 </script>

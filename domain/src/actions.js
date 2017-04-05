@@ -8,9 +8,10 @@ class RegisterASiteAction{
   };
 
   run(siteData) {
+    siteData.id = this.siteRepository.nextSiteId();
     let site = new Site(siteData);
     this.siteRepository.put(site);
-    return site
+    return site;
   };
 }
 
@@ -23,8 +24,10 @@ class RegisterAReviewAction{
 
   run(reviewData, siteId) {
     let site = this.siteRepository.findById(siteId);
+    reviewData.id = this.siteRepository.nextReviewId();
     reviewData.time = this.clock.now();
     let review = new Review(reviewData);
+
     site.addReview(review);
     this.siteRepository.put(site);
     return review;

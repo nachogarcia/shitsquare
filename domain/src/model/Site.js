@@ -5,6 +5,7 @@ class Site{
   constructor(siteData){
     this.id = siteData.id;
     this.coordinate = siteData.coordinate;
+    this.name = siteData.name;
     this.reviews = [];
   }
 

@@ -4,14 +4,13 @@ var Coordinate = require('../../src/model/Coordinate.js');
 
 describe('Register a Site Action', () => {
   it('adds site to repository', () => {
-    let siteRepository = {put: () => {}};
+    let siteRepository = {put: () => {}, nextSiteId: () => 'siteId', nextReviewId: () => 'reviewId'};
     sinon.spy(siteRepository, 'put');
 
-    let siteData = {id: "A site", coordinate: new Coordinate(0,0)};
-    let site = new Site(siteData);
+    let siteData = {id: siteRepository.nextSiteId(), name: "A site", coordinate: new Coordinate(0,0)};
     let registerASiteAction = new actions.RegisterASiteAction(siteRepository);
 
-    registerASiteAction.run(siteData);
+    let site = registerASiteAction.run(siteData);
 
     expect(siteRepository.put).to.have.been.calledWith(site);
   });

@@ -13,11 +13,12 @@ describe('Register a Review Action', () => {
 
   beforeEach( () => {
     time = "An irrelevant time";
-    reviewData = {id: "An id", time: time};
-    site = new Site({id: "An id", coordinate: new Coordinate(0,0)});
 
-    siteRepository = {put: () => {}, findById: () => {return site;}};
+    siteRepository = {put: () => {}, findById: () => site, nextSiteId: () => 'id', nextReviewId: () => 'reviewId'};
     sinon.spy(siteRepository, 'put');
+
+    site = new Site({id: siteRepository.nextSiteId(), name: "a name", coordinate: new Coordinate(0,0)});
+    reviewData = {id: siteRepository.nextReviewId(), score: 5, time: time};
 
     let clock = {now: () => {}};
     sinon.stub(clock,"now").callsFake( () => {

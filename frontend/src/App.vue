@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.jpg" width="100" height="100">
+    <app-nav></app-nav>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import AppNav from './components/AppNav.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {AppNav}
 }
 </script>
 

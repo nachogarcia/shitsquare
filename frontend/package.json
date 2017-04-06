@@ -12,6 +12,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "bootstrap-vue": "^0.11.1",
     "vue": "^2.2.2",
     "vue-router": "^2.2.0",
     "vue2-google-maps": "^0.7.5"

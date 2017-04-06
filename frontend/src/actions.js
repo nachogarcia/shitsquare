@@ -18,10 +18,10 @@ export function sendGetClosest (coordinate) {
   return post(body)
 }
 
-export function sendAddReview (reviewData, siteData) {
+export function sendAddReview (reviewData, siteId) {
   let method = 'addReview'
   let id = '3'
-  let body = { method, params: {reviewData, siteData}, id }
+  let body = { method, params: {reviewData, siteId}, id }
 
   return post(body)
 }

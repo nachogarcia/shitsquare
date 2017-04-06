@@ -2,7 +2,7 @@
   <gmap-map
     :center="center"
     :zoom="16"
-    style="width: 1000px; height: 1000px"
+    style="width: 100%; padding-bottom: 56.25%;"
   >
     <gmap-marker
       v-for="m in markers"
@@ -19,11 +19,6 @@
   import * as VueGoogleMaps from 'vue2-google-maps';
   import Vue from 'vue';
 
-  let siteData = { name: "A site", coordinate: {x: 41.7, y: -0.9} }
-  sendRegisterASite(siteData).then((response) => {
-    console.log("Added site", response.body.result)
-  })
-
   Vue.use(VueGoogleMaps, {
     load: {
       key: '',
@@ -39,6 +34,11 @@
 
     beforeCreate() {
       let currentCoordinate = { x: 41.6446231, y: -0.896913 }
+
+      let siteData = { name: "A site", coordinate: {x: 41.6449231, y: -0.899913} }
+      sendRegisterASite(siteData).then((response) => {
+        console.log("Added site", response.body.result)
+      })
 
       let closestSites = []
       sendGetClosest(currentCoordinate).then((response) => {

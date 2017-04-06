@@ -26,21 +26,19 @@ describe('The dispatcher', () => {
     siteData = {name: "a site", coordinates: {x: 9, y:12}}
     reviewData = {author: "someone", score: 3, comment: "a comment" }
     currentPosition = {x: 0, y: 0}
-
-    response = {send: () => {}}
   });
 
   it('gets the closest sites', () => {
     let request = {body: {id: 1, params: currentPosition, method:'getClosest'}}
 
-    dispatcher.run(request,response)
+    dispatcher.run(request)
 
     expect(siteRepository.getClosest).to.have.been.calledWith(currentPosition);
   });
   it('registers a site', () => {
     let request = {body: {id: 1, params: siteData, method:'registerASite'}}
 
-    dispatcher.run(request,response)
+    dispatcher.run(request)
 
     expect(registerASiteAction.run).to.have.been.calledWith(siteData);
   });
@@ -48,7 +46,7 @@ describe('The dispatcher', () => {
     let siteId = 3;
     let request = {body: {id: 1, params: {siteId, reviewData}, method:'registerAReview'}}
 
-    dispatcher.run(request,response)
+    dispatcher.run(request)
 
     expect(registerAReviewAction.run).to.have.been.calledWith(reviewData, siteId);
   });

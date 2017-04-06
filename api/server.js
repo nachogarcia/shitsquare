@@ -18,8 +18,9 @@ app.use((req, res, next) => {
 
 app.post('/api',(req, res) => {
   console.log('Request', req.body);
-  dispatcher.run(req,res);
-  console.log('Response', res);
+  let result = dispatcher.run(req);
+  res.send(result);
+  console.log('Result', result);
 });
 
 app.listen(8000, () => {

@@ -3,7 +3,7 @@ class Dispatcher {
     this.factory = factory
   }
 
-  run(req, res) {
+  run(req) {
     let method = req.body.method
     let params = req.body.params
     let id = req.body.id
@@ -21,10 +21,10 @@ class Dispatcher {
         break
     }
 
-    this.respond(res, result, id)
+    return this.respond(result, id)
   }
 
-  respond(res, result, id){
+  respond(result, id){
     let response = {
       body: {
         jsonrpc: "2.0",
@@ -32,7 +32,7 @@ class Dispatcher {
         id: id
       }
     }
-    res.send(response)
+    return response;
   }
 
   registerASite(siteData) {

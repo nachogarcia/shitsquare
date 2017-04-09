@@ -1,12 +1,10 @@
 <template>
-  <gmap-map
-    :center="center"
-    :zoom="16"
-    style="width: 100%; padding-bottom: 56.25%;"
-  >
-    <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" :content="infoContent" @closeclick="infoWinOpen=false"></gmap-info-window>
-
-        <gmap-marker :key="i" v-for="(m,i) in markers" :position="m.position" :clickable="true" @click="toggleInfoWindow(m,i)"></gmap-marker>
+  <gmap-map :center="center" @center_changed="getClosestSites" :zoom="16" style="width: 100%; padding-bottom: 56.25%;">
+    <gmap-marker
+      v-for="s in sites"
+      :position="getMapCoordinates(s)"
+      :clickable="true"
+      @click="displaySite(s)" />
   </gmap-map>
 </template>
 
@@ -23,57 +21,27 @@
 
   export default {
     data: () => ({
-      center: {},
-      markers: [],
-      infoContent: '',
-      infoWindowPos: {
-        lat: 0,
-        lng: 0
-      },
-      infoWinOpen: false,
-      currentMidx: null,
-      infoOptions: {
-        pixelOffset: {
-          width: 0,
-          height: -35
-        }
-      }
+      center: {lat: 41.6446231, lng: -0.896913},
+      sites: [],
     }),
     methods: {
-      toggleInfoWindow: function(marker, idx) {
-        this.infoWindowPos = marker.position;
-        this.infoContent = marker.infoText;
-        if (this.currentMidx == idx) {
-          this.infoWinOpen = !this.infoWinOpen;
-        }
-        else {
-          this.infoWinOpen = true;
-          this.currentMidx = idx;
-        }
-      }
+      getClosestSites: function () {
+        sendGetClosest(this.getSiteCoordinates(this.center)).then((response) => {
+          this.sites = response.body.result
+        });
+      },
+      getMapCoordinates: function (site) { return {lat: site.coordinate.x, lng: site.coordinate.y}},
+      getSiteCoordinates: function (marker) { return {x: marker.lat, y: marker.lng}},
+      displaySite: site => {console.log(site)},
     },
     name: 'map',
 
     beforeCreate() {
-      let currentCoordinate = { x: 41.6446231, y: -0.896913 }
-
       let siteData = { name: "A site", coordinate: {x: 41.6449231, y: -0.899913} }
       sendRegisterASite(siteData).then((response) => {
         console.log("Added site", response.body.result)
       })
 
-      let closestSites = []
-      sendGetClosest(currentCoordinate).then((response) => {
-        closestSites = response.body.result
-        closestSites = closestSites.map( site => {
-          return {
-            position: {lat: site.coordinate.x, lng: site.coordinate.y},
-            infoText: site.name
-          }
-        })
-        this.center = { lat: currentCoordinate.x, lng: currentCoordinate.y }
-        this.markers = closestSites
-      })
     }
   }
 </script>

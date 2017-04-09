@@ -1,5 +1,5 @@
 <template>
-  <gmap-map :center="center" @center_changed="getClosestSites" :zoom="16" style="width: 100%; padding-bottom: 56.25%;">
+  <gmap-map :center="center" @center_changed="getClosestSites" :zoom="16" style="width: 100%; height:100%;">
     <gmap-marker
       v-for="s in sites"
       :position="getMapCoordinates(s)"
@@ -21,7 +21,7 @@
 
   export default {
     data: () => ({
-      center: {lat: 41.6446231, lng: -0.896913},
+      center: {lat: '', lng: ''},
       sites: [],
     }),
     methods: {
@@ -35,13 +35,23 @@
       displaySite: site => {console.log(site)},
     },
     name: 'map',
+    beforeMount() {
+      let self = this;
+      navigator.geolocation.getCurrentPosition((position) => {
+        self.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      });
+
+      this.getClosestSites();
+    },
 
     beforeCreate() {
       let siteData = { name: "A site", coordinate: {x: 41.6449231, y: -0.899913} }
       sendRegisterASite(siteData).then((response) => {
         console.log("Added site", response.body.result)
       })
-
     }
   }
 </script>

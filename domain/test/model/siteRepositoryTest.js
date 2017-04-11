@@ -25,6 +25,16 @@ describe('Site Repository', () => {
     expect(storedSite).to.equal(site);
   });
 
+  it('updates a site', () => {
+    siteRepository.put(site);
+
+    site.name = "changed name"
+    siteRepository.put(site);
+
+    let storedSite = siteRepository.all()[0];
+    expect(storedSite).to.equal(site);
+  });
+
   it('finds by id', () => {
     siteRepository.put(site);
 

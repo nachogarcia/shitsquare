@@ -13,6 +13,21 @@ describe('A Site', () => {
     expect(site.reviews).to.contain(review);
   });
 
+  it('has the mean score of its reviews', () => {
+    let site = new Site({id: "A site", coordinate: new Coordinate(1,-1)});
+    let review1 = new Review({id: "A review", score: 0, time:"Some time"});
+    let review2 = new Review({id: "A review", score: 5, time:"Some time"});
+    let review3 = new Review({id: "A review", score: 3, time:"Some time"});
+    let review4 = new Review({id: "A review", score: 4, time:"Some time"});
+
+    site.addReview(review1);
+    site.addReview(review2);
+    site.addReview(review3);
+    site.addReview(review4);
+
+    expect(site.getScore()).to.eq(3)
+  });
+
 
   it('can be ordered by coordinates', () => {
     let currentCoord = new Coordinate(0,0);

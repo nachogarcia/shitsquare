@@ -13,6 +13,12 @@ class Site{
     this.reviews.push(review);
   }
 
+  getScore() {
+    let score = 0;
+    this.reviews.forEach( review => score += review.score );
+    return score / this.reviews.length;
+  }
+
   static sortSites(currentCoordinate, sites) {
     sites.sort( (a, b) => {
       return Coordinate.compare(currentCoordinate, a.coordinate, b.coordinate);

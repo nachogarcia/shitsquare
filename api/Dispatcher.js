@@ -40,9 +40,9 @@ class Dispatcher {
     return registerASiteAction.run(siteData);
   }
 
-  getClosest(coord) {
-    let siteRepository = this.factory.createSiteRepository();
-    return siteRepository.getClosest(coord,10);
+  getClosest(coordinate) {
+    let getClosestSitesAction = this.factory.createGetClosestSitesAction();
+    return getClosestSitesAction.run(coordinate);
   }
 
   registerAReview(params) {

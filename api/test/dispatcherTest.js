@@ -12,14 +12,19 @@ describe('The dispatcher', () => {
   let response;
 
   before(() => {
-    registerASiteAction = {run: () => {}}
-    registerAReviewAction = {run: () => {}}
-    siteRepository = {getClosest: () => {}}
-    factory  = {createRegisterASiteAction: () => registerASiteAction, createRegisterAReviewAction: () => registerAReviewAction, createSiteRepository: () => siteRepository};
+    registerASiteAction = { run: () => {} }
+    registerAReviewAction = { run: () => {} }
+    getClosestSitesAction = { run: () => {} }
 
-    sinon.spy(siteRepository, 'getClosest');
+    factory  = {
+      createRegisterASiteAction: () => registerASiteAction,
+      createRegisterAReviewAction: () => registerAReviewAction,
+      createGetClosestSitesAction: () => getClosestSitesAction,
+    };
+
     sinon.spy(registerASiteAction, 'run');
     sinon.spy(registerAReviewAction, 'run');
+    sinon.spy(getClosestSitesAction, 'run');
 
     dispatcher = new Dispatcher(factory);
 
@@ -33,8 +38,9 @@ describe('The dispatcher', () => {
 
     dispatcher.run(request)
 
-    expect(siteRepository.getClosest).to.have.been.calledWith(currentPosition);
+    expect(getClosestSitesAction.run).to.have.been.calledWith(currentPosition);
   });
+
   it('registers a site', () => {
     let request = {body: {id: 1, params: siteData, method:'registerASite'}}
 
@@ -42,6 +48,7 @@ describe('The dispatcher', () => {
 
     expect(registerASiteAction.run).to.have.been.calledWith(siteData);
   });
+
   it('registers a review', () => {
     let siteId = 3;
     let request = {body: {id: 1, params: {siteId, reviewData}, method:'registerAReview'}}

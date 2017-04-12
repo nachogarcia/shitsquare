@@ -34,7 +34,20 @@ class RegisterAReviewAction{
   };
 }
 
+class GetClosestSitesAction {
+
+  constructor (siteRepository) {
+    this.siteRepository = siteRepository;
+  };
+
+  run (coordinate) {
+    let numberOfSites = 50;
+    return this.siteRepository.getClosestSites(coordinate, numberOfSites);
+  };
+}
+
 module.exports = {
   RegisterASiteAction,
-  RegisterAReviewAction
+  RegisterAReviewAction,
+  GetClosestSitesAction,
 }

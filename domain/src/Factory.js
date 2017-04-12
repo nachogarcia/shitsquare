@@ -24,6 +24,10 @@ class Factory {
     this.registerASiteAction = this.registerASiteAction || new actions.RegisterASiteAction( this.createSiteRepository() );
     return this.registerASiteAction;
   }
+
+  createGetClosestSitesAction() {
+    this.getClosestSitesAction = this.getClosestSitesAction || new actions.getClosestSitesAction( this.createSiteRepository() );
+  }
 }
 
 module.exports = Factory

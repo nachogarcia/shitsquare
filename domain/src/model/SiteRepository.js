@@ -4,18 +4,27 @@ var Site = require('./Site.js');
 
 class SiteRepository{
 
-  constructor () {
-    this.sites = [];
+  constructor (DBConnection) {
+    this.DBConnection = DBConnection;
+    this.DBConnection.connect();
   };
 
   put (site) {
-    let toUpdate = this.findById(site.id);
-    if (toUpdate) toUpdate = site;
-    else this.sites.push(site);
+    let siteData = JSON.parse(JSON.stringify(site));
+    delete siteData['id'];
+    siteData = JSON.stringify(siteData);
+
+    this.DBConnection.query('INSERT INTO sites (id, data) VALUES ($1, $2)',
+      [ site.id, siteData ] ).catch( (error) => {
+      this.DBConnection.query('UPDATE sites SET data = $1 WHERE id = $2',
+        [ siteData, site.id ] );
+      });
   };
 
   all (){
-    return this.sites;
+    return this.DBConnection.query('SELECT * FROM sites').then( (result) => {
+      return result.rows.map( site => new Site(site['data']) );
+    });
   };
 
   getClosest (coord, numberOfSites) {
@@ -26,9 +35,11 @@ class SiteRepository{
   };
 
   findById (id) {
-    for (let site of this.sites) {
-      if (site.id == id) return site;
-    }
+    return this.DBConnection.query('SELECT * FROM sites where id=$1', [ id ]).then( (result) => {
+      let siteData = result.rows[0]['data'];
+      siteData.id = result.rows[0]['id']
+      return new Site(siteData);
+    });
   };
 
   nextSiteId () {

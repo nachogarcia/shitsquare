@@ -1,5 +1,6 @@
 var SiteRepository = require('../../src/model/SiteRepository.js');
 var actions = require('../../src/actions.js');
+var Factory = require('../../src/Factory.js');
 var Site = require('../../src/model/Site.js');
 var Coordinate = require('../../src/model/Coordinate.js');
 
@@ -9,7 +10,8 @@ describe('Site Repository', () => {
   let site;
 
   beforeEach( () => {
-    siteRepository = new SiteRepository();
+    let factory = new Factory();
+    siteRepository = factory.createSiteRepository();
     site = new Site({id: siteRepository.nextSiteId(), name: "Test site", coordinate: new Coordinate(0,0)});
   });
 
@@ -21,8 +23,9 @@ describe('Site Repository', () => {
   it('stores a site', () => {
     siteRepository.put(site);
 
-    let storedSite = siteRepository.all()[0];
-    expect(storedSite).to.equal(site);
+    return siteRepository.findById(site.id).then( (storedSite) => {
+      expect(storedSite).to.deep.equal(site);
+    });
   });
 
   it('updates a site', () => {
@@ -31,15 +34,16 @@ describe('Site Repository', () => {
     site.name = "changed name"
     siteRepository.put(site);
 
-    let storedSite = siteRepository.all()[0];
-    expect(storedSite).to.equal(site);
+    return siteRepository.findById(site.id).then( (storedSite) => {
+      expect(storedSite).to.deep.equal(site);
+    });
   });
 
   it('finds by id', () => {
     siteRepository.put(site);
 
-    let storedSite = siteRepository.findById(site.id);
-    expect(storedSite).to.equal(site);
+    return siteRepository.findById(site.id).then( storedSite =>
+      expect(storedSite).to.deep.equal(site));
   });
 
   describe('when returning the closest sites', () => {

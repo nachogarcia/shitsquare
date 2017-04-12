@@ -1,7 +1,7 @@
 var SiteRepository = require('./model/SiteRepository.js');
 var Clock = require('./infrastructure/Clock.js');
 var actions = require('./actions.js');
-
+var Client = require('pg').Client;
 
 class Factory {
 
@@ -10,8 +10,13 @@ class Factory {
     return this.clock;
   }
 
+  createDBConnection() {
+    this.DBConnection = this.DBConnection || new Client(process.env.DATABASE_URL);
+    return this.DBConnection;
+  }
+
   createSiteRepository() {
-    this.siteRepository = this.siteRepository || new SiteRepository();
+    this.siteRepository = this.siteRepository || new SiteRepository(this.createDBConnection());
     return this.siteRepository;
   }
 

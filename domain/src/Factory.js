@@ -1,5 +1,5 @@
 var SiteRepository = require('./model/SiteRepository.js');
-var Clock = require('./model/Clock.js');
+var Clock = require('./infrastructure/Clock.js');
 var actions = require('./actions.js');
 
 

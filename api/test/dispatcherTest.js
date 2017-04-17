@@ -12,9 +12,9 @@ describe('The dispatcher', () => {
   let response;
 
   before(() => {
-    registerASiteAction = { run: () => {} }
-    registerAReviewAction = { run: () => {} }
-    getClosestSitesAction = { run: () => {} }
+    registerASiteAction = { run: () => Promise.resolve({}) }
+    registerAReviewAction = { run: () => Promise.resolve({}) }
+    getClosestSitesAction = { run: () => Promise.resolve({}) }
 
     factory  = {
       createRegisterASiteAction: () => registerASiteAction,

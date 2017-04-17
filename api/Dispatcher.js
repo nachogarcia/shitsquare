@@ -25,14 +25,19 @@ class Dispatcher {
   }
 
   respond(result, id){
-    let response = {
-      body: {
-        jsonrpc: "2.0",
-        result: result,
-        id: id
-      }
-    }
-    return response;
+    return new Promise( (resolve, reject) => {
+      result.then( result => {
+        resolve (
+          {
+          body: {
+            jsonrpc: "2.0",
+            result: result,
+            id: id
+            }
+          }
+        )
+      });
+    });
   }
 
   registerASite(siteData) {

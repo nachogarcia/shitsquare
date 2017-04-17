@@ -16,7 +16,7 @@
 
   Vue.use(VueGoogleMaps, {
     load: {
-      key: '',
+      key: process.env.GMAP_API_KEY,
     }
   });
 

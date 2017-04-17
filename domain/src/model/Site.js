@@ -6,7 +6,7 @@ class Site{
     this.id = siteData.id;
     this.coordinate = siteData.coordinate;
     this.name = siteData.name;
-    this.reviews = [];
+    this.reviews = siteData.reviews || [];
   }
 
   addReview(review){

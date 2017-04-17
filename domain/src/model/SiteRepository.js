@@ -14,24 +14,38 @@ class SiteRepository{
     delete siteData['id'];
     siteData = JSON.stringify(siteData);
 
-    this.DBConnection.query('INSERT INTO sites (id, data) VALUES ($1, $2)',
-      [ site.id, siteData ] ).catch( (error) => {
-      this.DBConnection.query('UPDATE sites SET data = $1 WHERE id = $2',
-        [ siteData, site.id ] );
-      });
+    return this.insert(site.id, siteData)
+    .catch( (error) => {
+      return this.update(site.id, siteData);
+    });
   };
+
+  insert (id, siteData) {
+    return this.DBConnection.query('INSERT INTO sites (id, data) VALUES ($1, $2)',
+      [ id, siteData ] );
+  }
+
+  update (id, siteData) {
+    return this.DBConnection.query('UPDATE sites SET data = $1 WHERE id = $2',
+      [ siteData, id ] );
+  }
 
   all (){
     return this.DBConnection.query('SELECT * FROM sites').then( (result) => {
-      return result.rows.map( site => new Site(site['data']) );
+      return result.rows.map( site => {
+        let siteData = site['data'];
+        siteData.id = site['id'];
+        return new Site(siteData);
+      });
     });
   };
 
   getClosest (coord, numberOfSites) {
-    let allSites = this.all();
-    numberOfSites = Math.min(allSites.length, numberOfSites);
-    Site.sortSites(coord,allSites);
-    return allSites.slice(0, numberOfSites);
+    return this.all().then( (allSites) => {
+      numberOfSites = Math.min(allSites.length, numberOfSites);
+      Site.sortSites(coord,allSites);
+      return allSites.slice(0, numberOfSites);
+    });
   };
 
   findById (id) {

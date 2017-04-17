@@ -47,12 +47,5 @@
 
       this.getClosestSites();
     },
-
-    beforeCreate() {
-      let siteData = { name: "A site", coordinate: {x: 41.6449231, y: -0.899913} }
-      sendRegisterASite(siteData).then((response) => {
-        console.log("Added site", response.body.result)
-      })
-    }
   }
 </script>

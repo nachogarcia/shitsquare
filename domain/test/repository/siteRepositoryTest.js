@@ -3,6 +3,7 @@ var actions = require('../../src/actions.js');
 var Factory = require('../../src/Factory.js');
 var Site = require('../../src/model/Site.js');
 var Coordinate = require('../../src/model/Coordinate.js');
+var Migrator = require('../../src/infrastructure/Migrator.js');
 
 
 describe('Site Repository', () => {
@@ -11,6 +12,9 @@ describe('Site Repository', () => {
 
   beforeEach( () => {
     let factory = new Factory();
+    let migrator = new Migrator(factory);
+    migrator.resetDB();
+
     siteRepository = factory.createSiteRepository();
     site = new Site({id: siteRepository.nextSiteId(), name: "Test site", coordinate: new Coordinate(0,0)});
   });
@@ -29,10 +33,10 @@ describe('Site Repository', () => {
   });
 
   it('updates a site', () => {
-    siteRepository.put(site);
-
-    site.name = "changed name"
-    siteRepository.put(site);
+    siteRepository.put(site).then((site) => {
+      site.name = "changed name"
+      siteRepository.put(site);
+    });
 
     return siteRepository.findById(site.id).then( (storedSite) => {
       expect(storedSite).to.deep.equal(site);
@@ -60,34 +64,19 @@ describe('Site Repository', () => {
     });
 
     it('returns the sites in order', () => {
-      siteRepository.put(farthestSite);
-      siteRepository.put(closestSite);
-      siteRepository.put(middleSite);
+      Promise.all([
+        siteRepository.put(farthestSite),
+        siteRepository.put(closestSite),
+        siteRepository.put(middleSite)
+      ]);
 
-      let closestSites = siteRepository.getClosest(currentPlace,3);
+      return siteRepository.getClosest(currentPlace,3).then( (closestSites) => {
+        expect(closestSites[0]).to.deep.eq(closestSite);
+        expect(closestSites[1]).to.deep.eq(middleSite);
+        expect(closestSites[2]).to.deep.eq(farthestSite);
+        expect(closestSites.length).to.eq(3);
+      });
 
-      expect(closestSites[0]).to.eq(closestSite);
-      expect(closestSites[1]).to.eq(middleSite);
-      expect(closestSites[2]).to.eq(farthestSite);
-    });
-
-    it('returns the number of sites asked', () => {
-      siteRepository.put(farthestSite);
-      siteRepository.put(closestSite);
-
-      let closestSites = siteRepository.getClosest(currentPlace,1);
-
-      expect(closestSites.length).to.eq(1);
-    });
-
-    it('returns the number of sites avaible if there are less than asked', () => {
-      siteRepository.put(farthestSite);
-      siteRepository.put(closestSite);
-
-      let closestSites = siteRepository.getClosest(currentPlace,1);
-
-      closestSites = siteRepository.getClosest(currentPlace,3);
-      expect(closestSites.length).to.eq(2);
     });
   });
 });

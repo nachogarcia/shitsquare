@@ -22,7 +22,7 @@
 
   export default {
     data: () => ({
-      center: {lat: '', lng: ''},
+      center: {lat: 0, lng: 0},
       sites: [],
     }),
     methods: {

@@ -10,8 +10,8 @@ describe('Register a Site Action', () => {
     let siteData = {id: siteRepository.nextSiteId(), name: "A site", coordinate: new Coordinate(0,0)};
     let registerASiteAction = new actions.RegisterASiteAction(siteRepository);
 
-    let site = registerASiteAction.run(siteData);
-
-    expect(siteRepository.put).to.have.been.calledWith(site);
+    return registerASiteAction.run(siteData).then( (site) => {
+      expect(siteRepository.put).to.have.been.calledWith(site);
+    });
   });
 });

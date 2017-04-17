@@ -14,7 +14,7 @@ describe('Register a Review Action', () => {
   beforeEach( () => {
     time = "An irrelevant time";
 
-    siteRepository = {put: () => {}, findById: () => site, nextSiteId: () => 'id', nextReviewId: () => 'reviewId'};
+    siteRepository = {put: () => {}, findById: () => Promise.resolve(site), nextSiteId: () => 'id', nextReviewId: () => 'reviewId'};
     sinon.spy(siteRepository, 'put');
 
     site = new Site({id: siteRepository.nextSiteId(), name: "a name", coordinate: new Coordinate(0,0)});
@@ -27,18 +27,23 @@ describe('Register a Review Action', () => {
 
     registerAReviewAction = new actions.RegisterAReviewAction(siteRepository, clock);
 
-    review = registerAReviewAction.run(reviewData, site.id);
   });
 
   it('adds the review to the repository', () => {
-    expect(siteRepository.put).to.have.been.calledWith(site);
+    return registerAReviewAction.run(reviewData, site.id).then( (review) => {
+      expect(siteRepository.put).to.have.been.calledWith(site);
+    });
   });
 
   it('adds the review to the site', () => {
-    expect(site.reviews).to.contain(review);
+    return registerAReviewAction.run(reviewData, site.id).then( (review) => {
+      expect(site.reviews).to.contain(review);
+    });
   });
 
   it('registers the review with the current time', () => {
-    expect(review.time).to.equal(time);
+    return registerAReviewAction.run(reviewData, site.id).then( (review) => {
+      expect(review.time).to.equal(time);
+    });
   });
 });

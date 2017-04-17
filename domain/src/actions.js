@@ -10,8 +10,10 @@ class RegisterASiteAction{
   run(siteData) {
     siteData.id = this.siteRepository.nextSiteId();
     let site = new Site(siteData);
-    this.siteRepository.put(site);
-    return site;
+    return new Promise( (resolve, reject) => {
+      this.siteRepository.put(site);
+      resolve (site);
+    });
   };
 }
 
@@ -23,14 +25,17 @@ class RegisterAReviewAction{
   };
 
   run(reviewData, siteId) {
-    let site = this.siteRepository.findById(siteId);
     reviewData.id = this.siteRepository.nextReviewId();
     reviewData.time = this.clock.now();
     let review = new Review(reviewData);
 
-    site.addReview(review);
-    this.siteRepository.put(site);
-    return review;
+    return new Promise( (resolve, reject) => {
+      this.siteRepository.findById(siteId).then( site => {
+        site.addReview(review);
+        return this.siteRepository.put(site);
+      });
+      resolve(review);
+    });
   };
 }
 
@@ -42,7 +47,9 @@ class GetClosestSitesAction {
 
   run (coordinate) {
     let numberOfSites = 50;
-    return this.siteRepository.getClosestSites(coordinate, numberOfSites);
+    return new Promise( (resolve, reject) => {
+      resolve(this.siteRepository.getClosest(coordinate, numberOfSites));
+    });
   };
 }
 

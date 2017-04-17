@@ -31,7 +31,8 @@ class Factory {
   }
 
   createGetClosestSitesAction() {
-    this.getClosestSitesAction = this.getClosestSitesAction || new actions.getClosestSitesAction( this.createSiteRepository() );
+    this.getClosestSitesAction = this.getClosestSitesAction || new actions.GetClosestSitesAction( this.createSiteRepository() );
+    return this.getClosestSitesAction;
   }
 }
 

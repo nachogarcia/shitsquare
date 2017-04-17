@@ -1,10 +1,11 @@
 <template>
   <gmap-map :center="center" @center_changed="getClosestSites" :zoom="16" style="width: 100%; height:100%;">
     <gmap-marker
-      v-for="s in sites"
-      :position="getMapCoordinates(s)"
+      v-for="site in sites"
+      :key="site.id"
+      :position="getMapCoordinates(site)"
       :clickable="true"
-      @click="displaySite(s)" />
+      @click="displaySite(site)" />
   </gmap-map>
 </template>
 

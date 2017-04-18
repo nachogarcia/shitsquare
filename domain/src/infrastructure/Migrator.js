@@ -13,37 +13,49 @@ class Migrator {
   }
 
   resetDB () {
-    this.dropTables();
-    this.createTables();
+    return this.dropTables().then((result) => {
+      return this.createTables();
+    });
   }
 
   createTables () {
-    Promise.all([this.connection.query('CREATE TABLE sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)')]);
+    return this.connection.query('CREATE TABLE sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)');
   }
 
   dropTables () {
-    Promise.all([this.connection.query('DROP TABLE IF EXISTS sites')]);
+    return this.connection.query('DROP TABLE IF EXISTS sites');
   }
 
   poblateFake () {
-    let registerASiteAction = this.factory.createRegisterASiteAction();
-    let registerAReviewAction = this.factory.createRegisterAReviewAction();
-
-    for(let i = 0; i < 100; i++){
-      let siteData = {};
-      siteData.name = faker.company.companyName();
-      siteData.coordinate = this.fakeCoordinate();
-      siteData.reviews = [];
-      registerASiteAction.run(siteData).then( (site) => {
-        for(let j = 0; j < 10; j++){
-          let reviewData = {};
-          reviewData.author = faker.name.findName();
-          reviewData.score = this.fakeScore();
-          reviewData.comment = faker.lorem.sentences();
-          registerAReviewAction.run(reviewData, site.id);
-        }
-      });
+    let siteCreations = [];
+    for(let i = 0; i < 500; i++){
+      siteCreations.push(this.createSite());
     }
+    Promise.all(siteCreations);
+  }
+
+  createSite () {
+    let registerASiteAction = this.factory.createRegisterASiteAction();
+    let siteData = {};
+    siteData.name = faker.company.companyName();
+    siteData.coordinate = this.fakeCoordinate();
+
+    return registerASiteAction.run(siteData).then( site => {
+      let reviewCreations = [];
+      for(let j = 0; j < 10; j++){
+        reviewCreations.push(this.createReview(site.id));
+      }
+      Promise.all(reviewCreations);
+    });
+  }
+
+  createReview (id) {
+    let registerAReviewAction = this.factory.createRegisterAReviewAction();
+    let reviewData = {};
+    reviewData.author = faker.name.findName();
+    reviewData.score = this.fakeScore();
+    reviewData.comment = faker.lorem.sentences();
+    return registerAReviewAction.run(reviewData, id);
   }
 
   fakeScore(){

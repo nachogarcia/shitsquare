@@ -15,4 +15,3 @@ switch(process.argv[2]){
     migrator.poblateFake();
     break;
 }
-process.exit(0);

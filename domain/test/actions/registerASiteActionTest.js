@@ -4,7 +4,9 @@ var Coordinate = require('../../src/model/Coordinate.js');
 
 describe('Register a Site Action', () => {
   it('adds site to repository', () => {
-    let siteRepository = {put: () => {}, nextSiteId: () => 'siteId', nextReviewId: () => 'reviewId'};
+    let siteRepository = {put: () => Promise.resolve(),
+      nextSiteId: () => 'siteId',
+      nextReviewId: () => 'reviewId'};
     sinon.spy(siteRepository, 'put');
 
     let siteData = {id: siteRepository.nextSiteId(), name: "A site", coordinate: new Coordinate(0,0)};

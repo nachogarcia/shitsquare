@@ -14,7 +14,10 @@ describe('Register a Review Action', () => {
   beforeEach( () => {
     time = "An irrelevant time";
 
-    siteRepository = {put: () => {}, findById: () => Promise.resolve(site), nextSiteId: () => 'id', nextReviewId: () => 'reviewId'};
+    siteRepository = {put: () => Promise.resolve(),
+      findById: () => Promise.resolve(site),
+      nextSiteId: () => 'id',
+      nextReviewId: () => 'reviewId'};
     sinon.spy(siteRepository, 'put');
 
     site = new Site({id: siteRepository.nextSiteId(), name: "a name", coordinate: new Coordinate(0,0)});

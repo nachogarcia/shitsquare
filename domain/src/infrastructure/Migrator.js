@@ -60,7 +60,7 @@ class Migrator {
 
   fakeScore(){
     return faker.random.number({
-      'min': 0,
+      'min': 1,
       'max': 5
     });
   }

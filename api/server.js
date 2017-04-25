@@ -2,10 +2,14 @@ var Factory = require('../domain/src/Factory.js')
 var express = require('express')
 var bodyParser = require('body-parser')
 var Dispatcher = require('./Dispatcher.js')
+var JsonRPCParser = require('./JsonRPCParser.js')
 var app = express()
 
-var factory = new Factory()
-var dispatcher = new Dispatcher(factory)
+var factory = new Factory();
+var dispatcher = new Dispatcher();
+dispatcher.addMethod('getClosest',factory.createGetClosestSitesAction());
+dispatcher.addMethod('registerASite',factory.createRegisterASiteAction());
+dispatcher.addMethod('registerAReview',factory.createRegisterAReviewAction());
 
 app.use(bodyParser.json());
 
@@ -17,11 +21,13 @@ app.use((req, res, next) => {
 });
 
 app.post('/api',(req, res) => {
-  console.log('Request', req.body);
-  dispatcher.run(req)
+  let {method, params, id} = JsonRPCParser.unparse(req);
+  console.log(method, params, id)
+
+  dispatcher.run(method, params)
     .then( result => {
-      console.log('Result', result);
-      return res.send(result);
+      console.log(result);
+      return res.send(JsonRPCParser.parse(result, id));
     });
 });
 

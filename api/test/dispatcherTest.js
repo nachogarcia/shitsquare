@@ -1,60 +1,49 @@
 var Dispatcher = require('../Dispatcher.js')
 
 describe('The dispatcher', () => {
-  let registerASiteAction;
-  let registerAReviewAction;
-  let siteRepository;
-  let factory;
   let dispatcher;
-  let siteData;
-  let reviewData;
-  let currentPosition;
-  let response;
+  let method;
 
-  before(() => {
-    registerASiteAction = { run: () => Promise.resolve({}) }
-    registerAReviewAction = { run: () => Promise.resolve({}) }
-    getClosestSitesAction = { run: () => Promise.resolve({}) }
+  beforeEach(() => {
+    method = { run: () => Promise.resolve({}) }
 
-    factory  = {
-      createRegisterASiteAction: () => registerASiteAction,
-      createRegisterAReviewAction: () => registerAReviewAction,
-      createGetClosestSitesAction: () => getClosestSitesAction,
-    };
+    sinon.spy(method, 'run');
 
-    sinon.spy(registerASiteAction, 'run');
-    sinon.spy(registerAReviewAction, 'run');
-    sinon.spy(getClosestSitesAction, 'run');
-
-    dispatcher = new Dispatcher(factory);
-
-    siteData = {name: "a site", coordinates: {x: 9, y:12}}
-    reviewData = {author: "someone", score: 3, comment: "a comment" }
-    currentPosition = {x: 0, y: 0}
+    dispatcher = new Dispatcher();
+    dispatcher.addMethod('method', method);
   });
 
-  it('gets the closest sites', () => {
-    let request = {body: {id: 1, params: currentPosition, method:'getClosest'}}
-
-    dispatcher.run(request)
-
-    expect(getClosestSitesAction.run).to.have.been.calledWith(currentPosition);
+  describe('when calling a non existing method', () => {
+    it('Calls the method run of the introduced method', () => {
+      try {
+        dispatcher.run('NonExistingMethod')
+      }
+      catch(error) {
+        expect(error).to.deep.eq(new Error('Non Existing Method'));
+      }
+    });
   });
 
-  it('registers a site', () => {
-    let request = {body: {id: 1, params: siteData, method:'registerASite'}}
+  describe('when calling an existing method, calls the method run of', () => {
+    it('an empty method', () => {
+      dispatcher.run('method')
 
-    dispatcher.run(request)
+      expect(method.run).to.have.been.calledWith();
+    });
 
-    expect(registerASiteAction.run).to.have.been.calledWith(siteData);
-  });
+    it('a method with one parameter', () => {
+      let parameter = "a";
+      dispatcher.run('method', parameter)
 
-  it('registers a review', () => {
-    let siteId = 3;
-    let request = {body: {id: 1, params: {siteId, reviewData}, method:'registerAReview'}}
+      expect(method.run).to.have.been.calledWith(parameter);
+    });
 
-    dispatcher.run(request)
+    it('a method with multiple parameters', () => {
+      let parameter1 = "a";
+      let parameter2 = "b";
+      dispatcher.run('method', parameter1, parameter2)
 
-    expect(registerAReviewAction.run).to.have.been.calledWith(reviewData, siteId);
+      expect(method.run).to.have.been.calledWith(parameter1, parameter2);
+    });
   });
 });

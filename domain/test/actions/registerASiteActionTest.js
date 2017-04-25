@@ -3,15 +3,30 @@ var Site = require('../../src/model/Site.js');
 var Coordinate = require('../../src/model/Coordinate.js');
 
 describe('Register a Site Action', () => {
-  it('adds site to repository', () => {
-    let siteRepository = {put: () => Promise.resolve(),
+  let siteRepository;
+  let registerASiteAction;
+  let siteData;
+
+  beforeEach( () => {
+    siteRepository = {
+      put: () => Promise.resolve(),
       nextSiteId: () => 'siteId',
-      nextReviewId: () => 'reviewId'};
+      nextReviewId: () => 'reviewId'
+    };
     sinon.spy(siteRepository, 'put');
 
-    let siteData = {id: siteRepository.nextSiteId(), name: "A site", coordinate: new Coordinate(0,0)};
-    let registerASiteAction = new actions.RegisterASiteAction(siteRepository);
+    siteData = {id: siteRepository.nextSiteId(), name: "A site", coordinate: new Coordinate(0,0)};
 
+    registerASiteAction = new actions.RegisterASiteAction(siteRepository);
+  });
+
+  it('Returns a rejected promise if the site data is invalid', () => {
+    return registerASiteAction.run("Invalid Data").then().catch( error =>
+      expect(error).to.eq("Invalid Site Data")
+    );
+  });
+
+  it('adds site to repository', () => {
     return registerASiteAction.run(siteData).then( (site) => {
       expect(siteRepository.put).to.have.been.calledWith(site);
     });

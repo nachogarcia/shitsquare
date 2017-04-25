@@ -21,7 +21,7 @@ describe('Register a Review Action', () => {
     sinon.spy(siteRepository, 'put');
 
     site = new Site({id: siteRepository.nextSiteId(), name: "a name", coordinate: new Coordinate(0,0)});
-    reviewData = {id: siteRepository.nextReviewId(), score: 5, time: time};
+    reviewData = {id: siteRepository.nextReviewId(), score: 5, author: "An author", comment: "A comment about the site"};
 
     let clock = {now: () => {}};
     sinon.stub(clock,"now").callsFake( () => {
@@ -30,6 +30,12 @@ describe('Register a Review Action', () => {
 
     registerAReviewAction = new actions.RegisterAReviewAction(siteRepository, clock);
 
+  });
+
+  it('Returns a rejected promise if the review data is invalid', () => {
+    return registerAReviewAction.run("An invalid review", site.id).then().catch(error =>
+      expect(error).to.eq("Invalid Review Data")
+    );
   });
 
   it('adds the review to the repository', () => {

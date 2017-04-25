@@ -3,12 +3,25 @@ var Site = require('../../src/model/Site.js');
 var Coordinate = require('../../src/model/Coordinate.js');
 
 describe('Get closest sites Action', () => {
-  it('gets the closest sites', () => {
-    let siteRepository = {getClosest: () => Promise.resolve()};
-    let getClosestSitesAction = new actions.GetClosestSitesAction(siteRepository);
-    let coordinate = new Coordinate(0, 0);
+  let siteRepository;
+  let getClosestSitesAction;
+  let coordinate;
+
+  beforeEach( () => {
+    siteRepository = {getClosest: () => Promise.resolve()};
+    getClosestSitesAction = new actions.GetClosestSitesAction(siteRepository);
+    coordinate = new Coordinate(0, 0);
 
     sinon.spy(siteRepository, 'getClosest');
+  });
+
+  it('Returns a rejected promise if the coordinate is invalid', () => {
+    return getClosestSitesAction.run("An invalid coordinate").then().catch(error =>
+      expect(error).to.eq("Invalid Coordinate")
+    );
+  });
+
+  it('gets the closest sites', () => {
     return getClosestSitesAction.run(coordinate).then( (sites) => {
       expect(siteRepository.getClosest).to.have.been.calledWith(coordinate);
     });

@@ -22,11 +22,9 @@ app.use((req, res, next) => {
 
 app.post('/api',(req, res) => {
   let {method, params, id} = JsonRPCParser.unparse(req);
-  console.log(method, params, id)
 
   dispatcher.run(method, params)
     .then( result => {
-      console.log(result);
       return res.send(JsonRPCParser.parse(result, id));
     });
 });

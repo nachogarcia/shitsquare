@@ -15,12 +15,9 @@ describe('The dispatcher', () => {
 
   describe('when calling a non existing method', () => {
     it('Calls the method run of the introduced method', () => {
-      try {
-        dispatcher.run('NonExistingMethod')
-      }
-      catch(error) {
-        expect(error).to.deep.eq(new Error('Non Existing Method'));
-      }
+        return dispatcher.run('NonExistingMethod').then().catch( error =>
+          expect(error).to.deep.eq('Non Existing Method')
+        );
     });
   });
 

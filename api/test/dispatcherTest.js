@@ -22,7 +22,7 @@ describe('The dispatcher', () => {
   });
 
   describe('when calling an existing method, calls the method run of', () => {
-    it('an empty method', () => {
+    it('a method without parameters', () => {
       dispatcher.run('method')
 
       expect(method.run).to.have.been.calledWith();

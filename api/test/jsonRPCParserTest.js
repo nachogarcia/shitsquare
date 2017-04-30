@@ -33,7 +33,7 @@ describe('The parser', () => {
   });
 
 
-  describe.only('unparses correctly', () => {
+  describe('unparses correctly', () => {
     let request;
     let method;
     let expectedResult;

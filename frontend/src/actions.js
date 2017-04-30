@@ -3,25 +3,30 @@ const url = 'http://localhost:8000/api'
 export function sendRegisterASite(siteData) {
   let method = 'registerASite'
   let id = '1'
+  let params = {}
+  params.siteData = siteData;
 
-  let body = { method, params: siteData, id }
+  let body = { method, params, id }
 
   return post(body)
 }
 
-export function sendGetClosest (coordinate) {
-  let method = 'getClosest'
+export function sendGetClosestSites (coordinate) {
+  let method = 'getClosestSites'
   let id = '2'
+  let params = {};
+  params.coordinate = coordinate;
 
-  let body = { method, params: coordinate, id }
+  let body = { method, params, id }
 
   return post(body)
 }
 
-export function sendAddReview (reviewData, siteId) {
-  let method = 'addReview'
+export function sendRegisterAReview (reviewData, siteId) {
+  let method = 'registerAReview'
   let id = '3'
-  let body = { method, params: {reviewData, siteId}, id }
+  let params = [reviewData, siteId];
+  let body = { method, params, id }
 
   return post(body)
 }

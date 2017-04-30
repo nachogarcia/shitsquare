@@ -7,7 +7,7 @@ var app = express()
 
 var factory = new Factory();
 var dispatcher = new Dispatcher();
-dispatcher.addMethod('getClosest',factory.createGetClosestSitesAction());
+dispatcher.addMethod('getClosestSites',factory.createGetClosestSitesAction());
 dispatcher.addMethod('registerASite',factory.createRegisterASiteAction());
 dispatcher.addMethod('registerAReview',factory.createRegisterAReviewAction());
 
@@ -21,11 +21,16 @@ app.use((req, res, next) => {
 });
 
 app.post('/api',(req, res) => {
-  let {method, params, id} = JsonRPCParser.unparse(req);
+  let {method, id, params} = JsonRPCParser.unparse(req);
 
-  dispatcher.run(method, params)
+  dispatcher.run(method, ...params)
     .then( result => {
+      if (id == undefined ) return true;
+      console.log(res.send(JsonRPCParser.parse(result,id)))
       return res.send(JsonRPCParser.parse(result, id));
+    }).catch( error => {
+      return res.send(JsonRPCParser.parse(error, id));
+      console.log("error",error)
     });
 });
 

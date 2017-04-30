@@ -1,30 +1,96 @@
 var JsonRPCParser = require('../JsonRPCParser.js')
 
 describe('The parser', () => {
-  it('parses correctly', () => {
-    let id = 1;
-    let result = { a: "1", b: "c" };
+  describe('parses correctly', () => {
+    let expectedResponse;
+    let id;
 
-    let response = JsonRPCParser.parse(result, id);
+    beforeEach( () => {
+      id = 1;
+      expectedResponse = {};
+      expectedResponse.body = {};
+      expectedResponse.body.jsonrpc = "2.0"
+      expectedResponse.body.id = id;
+    });
 
-    expect(response).to.deep.eq({
-      body: {
-        "jsonrpc": "2.0",
-        "id": id,
-        "result": result
-      }
-    })
+    it('an error', () => {
+      let error = new Error();
+      expectedResponse.body.error = error;
+
+      let parsedResponse = JsonRPCParser.parse(error, id);
+
+      expect(parsedResponse).to.deep.eq(expectedResponse);
+    });
+
+    it('a result', () => {
+      let result = { a: "1", b: "c" };
+      expectedResponse.body.result = result;
+
+      let parsedResponse = JsonRPCParser.parse(result, id);
+
+      expect(parsedResponse).to.deep.eq(expectedResponse);
+    });
   });
 
-  it('unparses correctly', () => {
-    let id = 1;
-    let params = { a: "1", b: "c" };
-    let method = 'aMethod';
 
-    let request = {body: {id, params, method}};
+  describe.only('unparses correctly', () => {
+    let request;
+    let method;
+    let expectedResult;
 
-    let result = JsonRPCParser.unparse(request);
+    beforeEach( () => {
+      method = 'aMethod';
 
-    expect(result).to.deep.eq({id, params, method})
+      request = {};
+      request.body = {};
+      request.body.method = method;
+
+      expectedResult = {};
+      expectedResult.method = method;
+    });
+
+    it('A notification', () => {
+      expectedResult.id = undefined;
+      expectedResult.params = [];
+
+      let result = JsonRPCParser.unparse(request);
+
+      expect(result).to.deep.eq(expectedResult)
+    });
+
+    describe('a call', () => {
+      let id;
+
+      beforeEach( () => {
+        id = 1;
+        request.body.id = id;
+        expectedResult.id = id;
+      });
+
+      it('with named parameters', () => {
+        let param1 = { a: 1, b: "c" }
+        let param2 = "b"
+        request.body.params = {}
+        request.body.params.param1 = param1;
+        request.body.params.param2 = param2;
+        expectedResult.params = [ param1, param2 ]
+
+        let result = JsonRPCParser.unparse(request);
+
+        expect(result).to.deep.eq(expectedResult)
+      });
+
+      it('with positional parameters', () => {
+        let param1 = 1
+        let param2 = "c"
+        let params = [ param1, param2 ]
+        request.body.params = params;
+        expectedResult.params = params;
+
+        let result = JsonRPCParser.unparse(request);
+
+        expect(result).to.deep.eq(expectedResult)
+      });
+    });
   });
 });

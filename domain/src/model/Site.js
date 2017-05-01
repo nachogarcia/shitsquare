@@ -10,7 +10,7 @@ class Site{
   }
 
   addReview(review){
-    this.reviews.push(review);
+    this.reviews.unshift(review);
   }
 
   getScore() {

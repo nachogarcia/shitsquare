@@ -59,7 +59,7 @@
       addReview () {
         this.reviewToAdd.score = Number(this.reviewToAdd.score)
         sendRegisterAReview(this.reviewToAdd, this.currentSite.id).then((response) => {
-          currentSite.reviews.push(response.body.result)
+          this.currentSite.reviews.unshift(response.body.result)
         });
       },
     },

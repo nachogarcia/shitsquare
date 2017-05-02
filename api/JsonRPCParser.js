@@ -18,7 +18,9 @@ class JsonRPCParser {
     let params = request.body.params;
 
     if ( params == undefined ) params = []
-    params = Object.values(params)
+    params = Object.keys(params).map(function(key) {
+      return params[key];
+    });
 
     return {id, method, params};
   };

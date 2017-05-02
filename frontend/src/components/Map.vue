@@ -1,10 +1,10 @@
 <template>
-  <gmap-map :center="center" @center_changed="getClosestSites" :zoom="16">
+  <gmap-map :center="center" @center_changed="updateCenter" :zoom="16">
 
     <gmap-marker
-      v-for="site in sites"
+      v-for="site in closestSites"
       :key="site.id"
-      :position="getMapCoordinates(site)"
+      :position="siteToMapCoordinates(site)"
       :clickable="true"
       @click="displaySite(site)" />
 
@@ -12,35 +12,34 @@
 </template>
 
 <script>
-  import { sendRegisterASite, sendGetClosestSites } from "../actions.js"
+  import { siteToMapCoordinates } from "../utils.js"
   import * as VueGoogleMaps from 'vue2-google-maps';
   import Vue from 'vue';
   import * as Vuex from 'vuex';
 
   Vue.use(VueGoogleMaps, {
-    load: {
-      key: process.env.GMAP_API_KEY,
-    }
+    load: { key: process.env.GMAP_API_KEY, }
   });
 
   export default {
     name: 'Map',
 
-    data: () => ({
-      center: { lat: 0, lng: 0 },
-      sites: [],
-    }),
+    computed: {
+      ...Vuex.mapGetters(['center', 'closestSites']),
+    },
 
     methods: {
-      getClosestSites: function () {
-        sendGetClosestSites(this.getSiteCoordinates(this.center)).then((response) => {
-          this.sites = response.body.result
-        });
+      siteToMapCoordinates,
+
+      ...Vuex.mapActions(['setInitialLocation', 'updateClosestSites']),
+
+      updateCenter: function (event) {
+        let lat = event.lat();
+        let lng = event.lng();
+
+        this.$store.commit('center', {lat, lng});
+        this.updateClosestSites();
       },
-
-      getMapCoordinates: function (site) { return { lat: site.coordinate.x, lng: site.coordinate.y } },
-
-      getSiteCoordinates: function (marker) { return { x: marker.lat, y: marker.lng } },
 
       displaySite: function (site) {
         this.$store.commit('currentSite', site);
@@ -49,15 +48,7 @@
     },
 
     beforeMount() {
-      let self = this;
-      navigator.geolocation.getCurrentPosition((position) => {
-        self.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
-
-      this.getClosestSites();
+      this.setInitialLocation();
     },
   }
 </script>

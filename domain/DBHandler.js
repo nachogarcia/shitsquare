@@ -6,12 +6,20 @@ let migrator = factory.createMigrator();
 
 switch(process.argv[2]){
   case 'reset':
-    migrator.resetDB();
+    migrator.resetDB().then(result => {
+      migrator.close();
+    });
     break;
+
   case 'init':
-    migrator.createTables();
+    migrator.createTables().then(result => {
+      migrator.close();
+    });
     break;
+
   case 'fake':
-    migrator.poblateFake();
+    migrator.poblateFake().then(result => {
+      migrator.close();
+    });
     break;
 }

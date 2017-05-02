@@ -13,7 +13,7 @@ describe('Site Repository', () => {
 
   beforeEach( () => {
     let factory = new Factory();
-    let migrator = new Migrator(factory);
+    let migrator = factory.createMigrator();
     siteRepository = factory.createSiteRepository();
     return migrator.resetDB().then((result) => {
 

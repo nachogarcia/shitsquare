@@ -7,13 +7,18 @@ var Coordinate = require('../model/Coordinate.js');
 
 class Migrator {
 
-  constructor(factory){
-    this.factory = factory;
-    this.connection = factory.createDBConnection();
+  constructor(connection, registerASiteAction, registerAReviewAction){
+    this.connection = connection;
+    this.registerASiteAction = registerASiteAction;
+    this.registerAReviewAction = registerAReviewAction;
+  }
+
+  close () {
+    return this.connection.end()
   }
 
   resetDB () {
-    return this.dropTables().then((result) => {
+    return this.dropTables().then((error,result) => {
       return this.createTables();
     });
   }
@@ -31,31 +36,29 @@ class Migrator {
     for(let i = 0; i < 500; i++){
       siteCreations.push(this.createSite());
     }
-    Promise.all(siteCreations);
+    return Promise.all(siteCreations);
   }
 
   createSite () {
-    let registerASiteAction = this.factory.createRegisterASiteAction();
     let siteData = {};
     siteData.name = faker.company.companyName();
     siteData.coordinate = this.fakeCoordinate();
 
-    return registerASiteAction.run(siteData).then( site => {
+    return this.registerASiteAction.run(siteData).then( site => {
       let reviewCreations = [];
       for(let j = 0; j < 10; j++){
         reviewCreations.push(this.createReview(site.id));
       }
-      Promise.all(reviewCreations);
+      return Promise.all(reviewCreations);
     });
   }
 
   createReview (id) {
-    let registerAReviewAction = this.factory.createRegisterAReviewAction();
     let reviewData = {};
     reviewData.author = faker.name.findName();
     reviewData.score = this.fakeScore();
     reviewData.comment = faker.lorem.sentences();
-    return registerAReviewAction.run(reviewData, id);
+    return this.registerAReviewAction.run(reviewData, id);
   }
 
   fakeScore(){

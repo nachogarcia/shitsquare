@@ -1,4 +1,5 @@
 var SiteRepository = require('./model/SiteRepository.js');
+var Migrator = require('./infrastructure/Migrator.js');
 var Clock = require('./infrastructure/Clock.js');
 var actions = require('./actions.js');
 var Client = require('pg').Client;
@@ -33,6 +34,15 @@ class Factory {
   createGetClosestSitesAction() {
     this.getClosestSitesAction = this.getClosestSitesAction || new actions.GetClosestSitesAction( this.createSiteRepository() );
     return this.getClosestSitesAction;
+  }
+
+  createMigrator() {
+    this.migrator = this.migrator || new Migrator(
+      this.createDBConnection(),
+      this.createRegisterASiteAction(),
+      this.createRegisterAReviewAction()
+    )
+    return this.migrator;
   }
 }
 

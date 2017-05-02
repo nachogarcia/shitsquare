@@ -2,7 +2,7 @@ var Factory = require('./src/Factory.js');
 var Migrator = require('./src/infrastructure/Migrator.js');
 
 let factory = new Factory();
-let migrator = new Migrator(factory);
+let migrator = factory.createMigrator();
 
 switch(process.argv[2]){
   case 'reset':

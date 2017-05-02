@@ -25,7 +25,6 @@ app.post('/api',(req, res) => {
 
   dispatcher.run(method, ...params)
     .then( result => {
-      if (id == undefined ) return true;
       return res.send(JsonRPCParser.parse(result, id));
     }).catch( error => {
       return res.send(JsonRPCParser.parse(error, id));

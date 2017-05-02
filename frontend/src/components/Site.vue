@@ -35,6 +35,7 @@
 </template>
 
 <script>
+  import { formatDate } from "../utils.js";
   import { sendRegisterAReview } from "../actions.js";
   import Vue from 'vue';
   import { mapGetters } from 'vuex'
@@ -48,9 +49,7 @@
     computed: mapGetters(['currentSite']),
 
     methods: {
-      formatDate (dateString) {
-        return new Date(dateString).toLocaleDateString();
-      },
+      formatDate,
 
       clearModal() {
         this.reviewToAdd = {}

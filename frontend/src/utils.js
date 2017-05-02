@@ -8,3 +8,7 @@ export function browserToMapCoordinates (position) {
     lng: position.coords.longitude
   };
 }
+
+export function formatDate (dateString) {
+  return new Date(dateString).toLocaleDateString();
+}

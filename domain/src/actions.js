@@ -17,7 +17,7 @@ class RegisterASiteAction {
       });
     }
     else {
-      return Promise.reject("Invalid Site Data");
+      return Promise.reject(new Error("Invalid Site Data"));
     }
   };
 }
@@ -43,7 +43,7 @@ class RegisterAReviewAction{
       });
     }
     else {
-      return Promise.reject("Invalid Review Data");
+      return Promise.reject(new Error("Invalid Review Data"));
     }
   };
 }
@@ -60,7 +60,7 @@ class GetClosestSitesAction {
       return this.siteRepository.getClosest(coordinate, numberOfSites);
     }
     else {
-      return Promise.reject("Invalid Coordinate");
+      return Promise.reject(new Error("Invalid Coordinate"));
     }
   };
 }

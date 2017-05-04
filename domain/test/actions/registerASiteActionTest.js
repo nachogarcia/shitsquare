@@ -22,7 +22,7 @@ describe('Register a Site Action', () => {
 
   it('Returns a rejected promise if the site data is invalid', () => {
     return registerASiteAction.run("Invalid Data").then().catch( error =>
-      expect(error).to.eq("Invalid Site Data")
+      expect(error).to.deep.eq(new Error("Invalid Site Data"))
     );
   });
 

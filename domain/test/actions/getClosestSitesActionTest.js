@@ -17,7 +17,7 @@ describe('Get closest sites Action', () => {
 
   it('Returns a rejected promise if the coordinate is invalid', () => {
     return getClosestSitesAction.run("An invalid coordinate").then().catch(error =>
-      expect(error).to.eq("Invalid Coordinate")
+      expect(error).to.deep.eq(new Error("Invalid Coordinate"))
     );
   });
 

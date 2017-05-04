@@ -36,7 +36,7 @@ const actions = {
 
   updateClosestSites ({ commit, state }) {
     sendGetClosestSites(mapToSiteCoordinates(state.center)).then((response) => {
-      commit('closestSites', response.body.result);
+      commit('closestSites', response);
     });
   },
 }

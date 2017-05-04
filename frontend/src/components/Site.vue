@@ -11,7 +11,7 @@
         :show-rating="false"
         :star-size="30"
         :increment="0.01"
-        inline="true"
+        :inline="true"
       />
       <div class="mx-auto addReview-button">
         <b-button :variant="'primary'" v-b-modal.addReviewModal>Añadir una review</b-button>
@@ -96,8 +96,8 @@
       addReview () {
         this.reviewToAdd.score = Number(this.reviewToAdd.score)
         sendRegisterAReview(this.reviewToAdd, this.currentSite.id).then((response) => {
-          this.currentSite.reviews.unshift(response.body.result)
-        });
+          this.currentSite.reviews.unshift(response)
+        }).catch(error => { alert(error) });
       },
     },
   }

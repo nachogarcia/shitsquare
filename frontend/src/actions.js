@@ -41,5 +41,11 @@ function post (body) {
     }
   }
   return fetch(url, fetchData)
-  .then(response => response.json() );
+  .then(response => response.json() )
+  .then(json => { return parseResponse(json) });
+}
+
+function parseResponse (json) {
+  if (json.body.result) return Promise.resolve(json.body.result)
+  else return Promise.reject(json.body.error)
 }

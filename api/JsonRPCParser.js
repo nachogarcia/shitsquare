@@ -6,9 +6,10 @@ class JsonRPCParser {
     parsedResponse.body.jsonrpc = "2.0";
     parsedResponse.body.id = id;
 
-    if (response instanceof Error) parsedResponse.body.error = response;
+    if (response instanceof Error) parsedResponse.body.error = response.message;
     else parsedResponse.body.result = response;
 
+    console.log(parsedResponse)
     return parsedResponse;
   };
 

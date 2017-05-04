@@ -9,7 +9,6 @@ class JsonRPCParser {
     if (response instanceof Error) parsedResponse.body.error = response.message;
     else parsedResponse.body.result = response;
 
-    console.log(parsedResponse)
     return parsedResponse;
   };
 

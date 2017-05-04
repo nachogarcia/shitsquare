@@ -1,19 +1,31 @@
 <template>
   <div id="site" class="container">
+    <b-link to="/">
+      Atrás
+    </b-link>
     <section>
       <h1>{{ currentSite.name }}</h1>
-      <b-button :variant="'primary'" v-b-modal.addReviewModal>Añadir una review</b-button>
+      <star-rating
+        :rating="getSiteScore(currentSite)"
+        :read-only="true"
+        :show-rating="false"
+        :star-size="30"
+        :increment="0.01"
+        inline="true"
+      />
+      <div class="mx-auto addReview-button">
+        <b-button :variant="'primary'" v-b-modal.addReviewModal>Añadir una review</b-button>
+      </div>
       <section>
-        <h6>Reviews:</h6>
+        <h6>{{ currentSite.reviews.length }} Reviews:</h6>
         <b-card v-for="review in currentSite.reviews" :key="review.id">
           <div>
-            <span class="text-warning" v-for="n in review.score">
-              &#9733;
-            </span>
-            <span class="text-warning" v-for="n in 5-review.score">
-              &#9734;
-            </span>
-            <br />
+            <star-rating
+              :rating="review.score"
+              :read-only="true"
+              :star-size="20"
+              :show-rating="false"
+            />
             <span>Por <strong>{{ review.author }}</strong></span>
             <span>el <em>{{ formatDate(review.time) }}</em></span>
           </div>
@@ -24,21 +36,37 @@
       </section>
     </section>
 
-    <b-modal id="addReviewModal" title="Añadir una review" @ok="addReview" @shown="clearModal">
+    <b-modal id="addReviewModal"
+      title="Añadir una review"
+      @ok="addReview"
+      @shown="clearModal" >
       <form @submit.stop.prevent="submit">
-        <b-form-input type="text" placeholder="Nombre del autor" v-model="reviewToAdd.author" />
-        <b-form-input type="range" min="1" max="5" v-model=reviewToAdd.score />
-        <b-form-input textarea type="text" placeholder="Comentario acerca del sitio" v-model="reviewToAdd.comment" />
+        <star-rating
+          :show-rating="false"
+          @rating-selected="setReviewScore"
+        />
+        <b-form-input class="mt-1"
+          type="text"
+          placeholder="Nombre del autor"
+          v-model="reviewToAdd.author"
+        />
+        <b-form-input class="mt-1"
+          textarea
+          type="text"
+          placeholder="Comentario acerca del sitio"
+          v-model="reviewToAdd.comment"
+        />
       </form>
     </b-modal>
   </div>
 </template>
 
 <script>
-  import { formatDate } from "../utils.js";
+  import { formatDate, getSiteScore } from "../utils.js";
   import { sendRegisterAReview } from "../actions.js";
   import Vue from 'vue';
   import { mapGetters } from 'vuex'
+  import StarRating from 'vue-star-rating'
 
   export default {
     data: () => ({
@@ -46,13 +74,23 @@
     }),
     name: 'Site',
 
+    components: {
+      StarRating
+    },
+
     computed: mapGetters(['currentSite']),
 
     methods: {
       formatDate,
 
-      clearModal() {
+      getSiteScore,
+
+      clearModal () {
         this.reviewToAdd = {}
+      },
+
+      setReviewScore (rating) {
+        this.reviewToAdd.score = rating;
       },
 
       addReview () {
@@ -68,4 +106,6 @@
 <style>
   #site { padding-top: 200px }
   .comment { padding-top: 20px }
+  .addReview-button { width: 200px }
+  .addReview-rating { width: 100px }
 </style>

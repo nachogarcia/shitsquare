@@ -12,3 +12,9 @@ export function browserToMapCoordinates (position) {
 export function formatDate (dateString) {
   return new Date(dateString).toLocaleDateString();
 }
+
+export function getSiteScore(site) {
+    let score = 0;
+    site.reviews.forEach( review => score += review.score );
+    return score / site.reviews.length;
+  }

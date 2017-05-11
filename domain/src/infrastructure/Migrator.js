@@ -32,11 +32,11 @@ class Migrator {
   }
 
   poblateFake () {
-    let siteCreations = [];
+    let promise = this.createSite();
     for(let i = 0; i < 500; i++){
-      siteCreations.push(this.createSite());
+      promise = promise.then( () => { return this.createSite() });
     }
-    return Promise.all(siteCreations);
+    return promise;
   }
 
   createSite () {
@@ -45,11 +45,11 @@ class Migrator {
     siteData.coordinate = this.fakeCoordinate();
 
     return this.registerASiteAction.run(siteData).then( site => {
-      let reviewCreations = [];
-      for(let j = 0; j < 10; j++){
-        reviewCreations.push(this.createReview(site.id));
+      let promise = this.createReview(site.id);
+      for(let j = 0; j < this.numberOfReviews(); j++){
+        promise = promise.then( () => { return this.createReview(site.id) });
       }
-      return Promise.all(reviewCreations);
+      return promise;
     });
   }
 
@@ -61,7 +61,14 @@ class Migrator {
     return this.registerAReviewAction.run(reviewData, id);
   }
 
-  fakeScore(){
+  numberOfReviews () {
+    return faker.random.number({
+      'min': 0,
+      'max': 15
+    });
+  }
+
+  fakeScore (){
     return faker.random.number({
       'min': 1,
       'max': 5

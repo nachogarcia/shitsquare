@@ -9,16 +9,15 @@ class RegisterASiteAction {
   };
 
   run(siteData) {
-    if ( Validation.isValidSite(siteData) ){
-      siteData.id = this.siteRepository.nextSiteId();
-      let site = new Site(siteData);
-      return this.siteRepository.put(site).then( result => {
-        return site;
-      });
-    }
-    else {
+    if ( !Validation.isValidSite(siteData) ){
       return Promise.reject(new Error("Invalid Site Data"));
     }
+
+    siteData.id = this.siteRepository.nextSiteId();
+    let site = new Site(siteData);
+    return this.siteRepository.put(site).then( result => {
+      return site;
+    });
   };
 }
 
@@ -30,21 +29,20 @@ class RegisterAReviewAction{
   };
 
   run(reviewData, siteId) {
-    if( Validation.isValidReview(reviewData) ) {
-      reviewData.id = this.siteRepository.nextReviewId();
-      reviewData.time = this.clock.now();
-      let review = new Review(reviewData);
-
-      return this.siteRepository.findById(siteId).then( site => {
-        site.addReview(review);
-        return this.siteRepository.put(site).then( result => {
-          return review;
-        });
-      });
-    }
-    else {
+    if( !Validation.isValidReview(reviewData) ) {
       return Promise.reject(new Error("Invalid Review Data"));
     }
+
+    reviewData.id = this.siteRepository.nextReviewId();
+    reviewData.time = this.clock.now();
+    let review = new Review(reviewData);
+
+    return this.siteRepository.findById(siteId).then( site => {
+      site.addReview(review);
+      return this.siteRepository.put(site).then( result => {
+        return review;
+      });
+    });
   };
 }
 
@@ -55,13 +53,12 @@ class GetClosestSitesAction {
   };
 
   run (coordinate) {
-    if( Validation.isValidCoordinate(coordinate) ) {
-      let numberOfSites = 50;
-      return this.siteRepository.getClosest(coordinate, numberOfSites);
-    }
-    else {
+    if( !Validation.isValidCoordinate(coordinate) ) {
       return Promise.reject(new Error("Invalid Coordinate"));
     }
+
+    let numberOfSites = 50;
+    return this.siteRepository.getClosest(coordinate, numberOfSites);
   };
 }
 

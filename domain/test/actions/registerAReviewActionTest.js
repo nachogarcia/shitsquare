@@ -32,8 +32,8 @@ describe('Register a Review Action', () => {
 
   });
 
-  it('Returns a rejected promise if the review data is invalid', () => {
-    return registerAReviewAction.run("An invalid review", site.id).then().catch(error =>
+  it('returns a rejected promise if the review data is invalid', () => {
+    return registerAReviewAction.run("An invalid review", site.id).catch(error =>
       expect(error).to.deep.eq(new Error("Invalid Review Data"))
     );
   });

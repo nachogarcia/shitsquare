@@ -20,8 +20,8 @@ describe('Register a Site Action', () => {
     registerASiteAction = new actions.RegisterASiteAction(siteRepository);
   });
 
-  it('Returns a rejected promise if the site data is invalid', () => {
-    return registerASiteAction.run("Invalid Data").then().catch( error =>
+  it('returns a rejected promise if the site data is invalid', () => {
+    return registerASiteAction.run("Invalid Data").catch( error =>
       expect(error).to.deep.eq(new Error("Invalid Site Data"))
     );
   });

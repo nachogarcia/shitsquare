@@ -7,8 +7,14 @@
 
 <script>
 import AppNav from './components/AppNav.vue'
+import * as Vuex from 'vuex';
+
 export default {
   name: 'app',
-  components: {AppNav}
+  components: { AppNav },
+
+  created () {
+    this.$store.dispatch('setInitialLocation')
+  },
 }
 </script>

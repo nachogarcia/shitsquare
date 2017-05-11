@@ -31,7 +31,7 @@
     methods: {
       siteToMapCoordinates,
 
-      ...Vuex.mapActions(['setInitialLocation', 'updateClosestSites']),
+      ...Vuex.mapActions(['updateClosestSites']),
 
       updateCenter: function (event) {
         let lat = event.lat();
@@ -45,10 +45,6 @@
         this.$store.commit('currentSite', site);
         this.$router.push('site');
       },
-    },
-
-    beforeMount() {
-      this.setInitialLocation();
     },
   }
 </script>

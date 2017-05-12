@@ -1,5 +1,5 @@
 <template>
-  <gmap-map :center="center" @center_changed="updateCenter" :zoom="16">
+  <gmap-map :center="center" @zoom_changed="updateZoom" @center_changed="updateCenter" :zoom="zoom">
 
     <gmap-marker
       v-for="site in closestSites"
@@ -25,7 +25,7 @@
     name: 'Map',
 
     computed: {
-      ...Vuex.mapGetters(['center', 'closestSites']),
+      ...Vuex.mapGetters(['zoom', 'center', 'closestSites']),
     },
 
     methods: {
@@ -33,9 +33,13 @@
 
       ...Vuex.mapActions(['updateClosestSites']),
 
-      updateCenter: function (event) {
-        let lat = event.lat();
-        let lng = event.lng();
+      updateZoom: function (zoom) {
+        this.$store.commit('zoom', zoom);
+      },
+
+      updateCenter: function (mapCoordinate) {
+        let lat = mapCoordinate.lat();
+        let lng = mapCoordinate.lng();
 
         this.$store.commit('center', {lat, lng});
         this.updateClosestSites();

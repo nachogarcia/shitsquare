@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 const state = {
   currentSite: {},
+  zoom: 16,
   center: { lat: 0, lng: 0 },
   closestSites: []
 }
@@ -15,6 +16,10 @@ const state = {
 const mutations = {
   currentSite (state, currentSite) {
     state.currentSite = currentSite;
+  },
+
+  zoom(state, zoom) {
+    state.zoom = zoom;
   },
 
   center(state, center) {
@@ -43,6 +48,7 @@ const actions = {
 
 const getters = {
   currentSite: state => state.currentSite,
+  zoom: state => state.zoom,
   center: state => state.center,
   closestSites: state => state.closestSites,
 }

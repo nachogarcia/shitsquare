@@ -15,7 +15,7 @@ describe('The parser', () => {
 
     it('an error', () => {
       let error = new Error();
-      expectedResponse.body.error = error;
+      expectedResponse.body.error = error.message;
 
       let parsedResponse = JsonRPCParser.parse(error, id);
 

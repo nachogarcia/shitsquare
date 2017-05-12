@@ -8,8 +8,8 @@ class Dispatcher {
   }
 
   run (method, ...params) {
-    if (!this.methods[method]) return Promise.reject('Non Existing Method')
-    return this.methods[method].run(...params);
+    if (!this.methods[method]) return Promise.reject(new Error('Non Existing Method'))
+    return this.methods[method](...params);
   }
 }
 

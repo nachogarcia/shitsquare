@@ -5,18 +5,16 @@ describe('The dispatcher', () => {
   let method;
 
   beforeEach(() => {
-    method = { run: () => Promise.resolve({}) }
-
-    sinon.spy(method, 'run');
+    method = sinon.stub();
 
     dispatcher = new Dispatcher();
     dispatcher.addMethod('method', method);
   });
 
   describe('when calling a non existing method', () => {
-    it('Calls the method run of the introduced method', () => {
-        return dispatcher.run('NonExistingMethod').then().catch( error =>
-          expect(error).to.deep.eq('Non Existing Method')
+    it('calls the method run of the introduced method', () => {
+        return dispatcher.run('NonExistingMethod').catch( error =>
+          expect(error).to.deep.eq(new Error('Non Existing Method'))
         );
     });
   });
@@ -25,14 +23,14 @@ describe('The dispatcher', () => {
     it('a method without parameters', () => {
       dispatcher.run('method')
 
-      expect(method.run).to.have.been.calledWith();
+      expect(method).to.have.been.calledOnce;
     });
 
     it('a method with one parameter', () => {
       let parameter = "a";
       dispatcher.run('method', parameter)
 
-      expect(method.run).to.have.been.calledWith(parameter);
+      expect(method).to.have.been.calledWith(parameter);
     });
 
     it('a method with multiple parameters', () => {
@@ -40,7 +38,7 @@ describe('The dispatcher', () => {
       let parameter2 = "b";
       dispatcher.run('method', parameter1, parameter2)
 
-      expect(method.run).to.have.been.calledWith(parameter1, parameter2);
+      expect(method).to.have.been.calledWith(parameter1, parameter2);
     });
   });
 });

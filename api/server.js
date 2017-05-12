@@ -7,9 +7,9 @@ var app = express()
 
 var factory = new Factory();
 var dispatcher = new Dispatcher();
-dispatcher.addMethod('getClosestSites',factory.createGetClosestSitesAction());
-dispatcher.addMethod('registerASite',factory.createRegisterASiteAction());
-dispatcher.addMethod('registerAReview',factory.createRegisterAReviewAction());
+dispatcher.addMethod('getClosestSites',factory.createGetClosestSitesAction().run);
+dispatcher.addMethod('registerASite',factory.createRegisterASiteAction().run);
+dispatcher.addMethod('registerAReview',factory.createRegisterAReviewAction().run);
 
 app.use(bodyParser.json());
 

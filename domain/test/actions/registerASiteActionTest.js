@@ -17,7 +17,7 @@ describe('Register a Site Action', () => {
 
     siteData = {id: siteRepository.nextSiteId(), name: "A site", coordinate: new Coordinate(0,0)};
 
-    registerASiteAction = new actions.RegisterASiteAction(siteRepository);
+    registerASiteAction = actions.RegisterASiteAction(siteRepository);
   });
 
   it('returns a rejected promise if the site data is invalid', () => {

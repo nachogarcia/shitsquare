@@ -2,64 +2,57 @@ var Site = require('./model/Site.js');
 var Review = require('./model/Review.js');
 var Validation = require('./model/Validation.js');
 
-class RegisterASiteAction {
+function RegisterASiteAction (siteRepository) {
 
-  constructor(siteRepository) {
-    this.siteRepository = siteRepository;
-  };
-
-  run(siteData) {
+  function run(siteData) {
     if ( !Validation.isValidSite(siteData) ){
       return Promise.reject(new Error("Invalid Site Data"));
     }
 
-    siteData.id = this.siteRepository.nextSiteId();
+    siteData.id = siteRepository.nextSiteId();
     let site = new Site(siteData);
-    return this.siteRepository.put(site).then( result => {
+    return siteRepository.put(site).then( result => {
       return site;
     });
   };
+
+  return { run }
 }
 
-class RegisterAReviewAction{
+function RegisterAReviewAction (siteRepository, clock) {
 
-  constructor(siteRepository, clock) {
-    this.siteRepository = siteRepository;
-    this.clock = clock;
-  };
-
-  run(reviewData, siteId) {
+  function run(reviewData, siteId) {
     if( !Validation.isValidReview(reviewData) ) {
       return Promise.reject(new Error("Invalid Review Data"));
     }
 
-    reviewData.id = this.siteRepository.nextReviewId();
-    reviewData.time = this.clock.now();
+    reviewData.id = siteRepository.nextReviewId();
+    reviewData.time = clock.now();
     let review = new Review(reviewData);
 
-    return this.siteRepository.findById(siteId).then( site => {
+    return siteRepository.findById(siteId).then( site => {
       site.addReview(review);
-      return this.siteRepository.put(site).then( result => {
+      return siteRepository.put(site).then( result => {
         return review;
       });
     });
   };
+
+  return { run }
 }
 
-class GetClosestSitesAction {
+function GetClosestSitesAction (siteRepository) {
 
-  constructor (siteRepository) {
-    this.siteRepository = siteRepository;
-  };
-
-  run (coordinate) {
+  function run (coordinate) {
     if( !Validation.isValidCoordinate(coordinate) ) {
       return Promise.reject(new Error("Invalid Coordinate"));
     }
 
     let numberOfSites = 50;
-    return this.siteRepository.getClosest(coordinate, numberOfSites);
+    return siteRepository.getClosest(coordinate, numberOfSites);
   };
+
+  return { run }
 }
 
 

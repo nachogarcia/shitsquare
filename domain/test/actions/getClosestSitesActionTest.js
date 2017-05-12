@@ -9,7 +9,7 @@ describe('Get closest sites Action', () => {
 
   beforeEach( () => {
     siteRepository = {getClosest: () => Promise.resolve()};
-    getClosestSitesAction = new actions.GetClosestSitesAction(siteRepository);
+    getClosestSitesAction = actions.GetClosestSitesAction(siteRepository);
     coordinate = new Coordinate(0, 0);
 
     sinon.spy(siteRepository, 'getClosest');

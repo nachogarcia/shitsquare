@@ -28,7 +28,7 @@ describe('Register a Review Action', () => {
       return time;
     });
 
-    registerAReviewAction = new actions.RegisterAReviewAction(siteRepository, clock);
+    registerAReviewAction = actions.RegisterAReviewAction(siteRepository, clock);
 
   });
 

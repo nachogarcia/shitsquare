@@ -1,0 +1,1 @@
+osmosis --read-pbf spain-latest.osm.pbf --node-key-value keyValueList="amenity.bar,amenity.bbq,amenity.biertgarten,amenity.cafe,amenity.fast_food,amenity.food_court,amenity.pub,amenity.restaurant,amenity.college,amenity.library,amenity.fuel,amenity.clinic,amenity.hospital,amenity.casino,amenity.cinema,amenity.nightclub" --write-xml sites.osm

@@ -12,12 +12,6 @@ class Site{
   addReview(review){
     this.reviews.unshift(review);
   }
-
-  static sortSites(currentCoordinate, sites) {
-    sites.sort( (a, b) => {
-      return Coordinate.compare(currentCoordinate, a.coordinate, b.coordinate);
-    });
-  }
 }
 
 module.exports = Site

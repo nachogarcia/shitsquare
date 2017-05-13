@@ -8,6 +8,6 @@
   "author": "Nacho García",
   "license": "ISC",
   "dependencies": {
-    "xml2js": "^0.4.17"
+    "sax": "^1.2.2"
   }
 }

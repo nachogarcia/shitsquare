@@ -1,25 +1,44 @@
 var fs = require('fs');
-var xml2js = require('xml2js');
+var sax = require('sax');
 var Factory = require('../domain/src/Factory.js')
 
+var stream = sax.createStream();
 var factory = new Factory();
-var parser = new xml2js.Parser();
+var connection = factory.createDBConnection();
 var registerASiteAction = factory.createRegisterASiteAction();
 
-fs.readFile(__dirname + '/osmosis/sites.osm', (err, data) => {
-  parser.parseString(data, (err, result) => {
-    result.osm.node.forEach( raw => {
-      let nameNode = raw.tag.find( raw => raw['$'].k === 'name');
-      let lat = Number(raw['$'].lat);
-      let lon = Number(raw['$'].lon);
+const FILE = '/osmosis/sites.osm'
 
-      if (nameNode != undefined && lat != undefined && lon != undefined) {
-        let siteData = {};
-        siteData.name = nameNode['$'].v;
-        siteData.coordinate = { x: lat, y: lon };
+let siteData = {};
+let actions = 0;
 
-        registerASiteAction.run(siteData)
+stream.on("opentag", node => {
+  if (node.attributes) {
+    if(node.attributes.LAT) {
+      siteData.coordinate = {
+        x: Number(node.attributes.LAT),
+        y: Number(node.attributes.LON)
       }
-    })
-  });
+    }
+
+    if (node.attributes.K == 'name') {
+      siteData.name = node.attributes.V
+      actions++;
+      readStream.pause()
+      registerASiteAction.run(siteData).then( (site) => {
+        if(actions <= 1){
+          readStream.resume()
+        }
+        actions--;
+      });
+      siteData = {};
+    }
+  }
 });
+
+stream.on("end", () => {
+    console.log("Finished parsing")
+});
+
+readStream = fs.createReadStream(__dirname + FILE)
+readStream.pipe(stream)

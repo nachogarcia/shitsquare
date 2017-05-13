@@ -1,10 +1,16 @@
 <template>
-  <gmap-map :center="center" @zoom_changed="updateZoom" @center_changed="updateCenter" :zoom="zoom">
+  <gmap-map
+    :options="{styles}"
+    :center="center"
+    @zoom_changed="updateZoom"
+    @center_changed="updateCenter"
+    :zoom="zoom">
 
     <gmap-marker
       v-for="site in closestSites"
       :key="site.id"
       :position="siteToMapCoordinates(site)"
+      :icon="require('../assets/marker.png')"
       :clickable="true"
       @click="displaySite(site)" />
 
@@ -23,6 +29,16 @@
 
   export default {
     name: 'Map',
+
+    data: () => ({
+      styles: [
+        { "featureType": "poi",
+          "stylers": [
+            { "visibility": "off" }
+          ]
+        }
+      ]
+    }),
 
     computed: {
       ...Vuex.mapGetters(['zoom', 'center', 'closestSites']),

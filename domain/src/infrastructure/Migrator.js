@@ -18,13 +18,21 @@ class Migrator {
   }
 
   resetDB () {
-    return this.dropTables().then((error,result) => {
-      return this.createTables();
+    return this.dropTables().then(() => {
+      return this.createTables()
+    }).then(() => {
+      return this.createIndex()
     });
   }
 
   createTables () {
     return this.connection.query('CREATE TABLE sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)');
+  }
+
+  createIndex () {
+    return this.connection.query("CREATE INDEX coordinate_index ON sites USING GIST (\
+      st_setsrid(st_makepoint((data -> 'coordinate' -> 'x')::text::double precision,\
+      (data -> 'coordinate' -> 'y')::text::double precision),4326))");
   }
 
   dropTables () {

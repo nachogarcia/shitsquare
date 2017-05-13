@@ -8,7 +8,6 @@
       <star-rating
         :rating="getSiteScore(currentSite)"
         :read-only="true"
-        :show-rating="false"
         :star-size="30"
         :increment="0.01"
         :inline="true"
@@ -36,26 +35,53 @@
       </section>
     </section>
 
-    <b-modal id="addReviewModal"
+    <b-modal
+      id="addReviewModal"
       title="Añadir una review"
-      @ok="addReview"
-      @shown="clearModal" >
+      @ok="submit"
+      @shown="clearModal"
+    >
       <form @submit.stop.prevent="submit">
-        <star-rating
-          :show-rating="false"
-          @rating-selected="setReviewScore"
-        />
-        <b-form-input class="mt-1"
-          type="text"
-          placeholder="Nombre del autor"
-          v-model="reviewToAdd.author"
-        />
-        <b-form-input class="mt-1"
-          textarea
-          type="text"
-          placeholder="Comentario acerca del sitio"
-          v-model="reviewToAdd.comment"
-        />
+        <b-form-fieldset
+          label="Puntuación"
+          :feedback="errors.first('score')"
+          :state="errors.has('score') ? 'warning' : 'success'"
+          :label-size="1"
+        >
+          <star-rating
+            :show-rating="false"
+            @rating-selected="setScore"
+            name="score"
+            v-validate="'required'"
+          />
+        </b-form-fieldset>
+        <b-form-fieldset
+          label="Autor"
+          :feedback="errors.first('author')"
+          :state="errors.has('author') ? 'warning' : 'success'"
+          :label-size="1"
+        >
+          <b-form-input class="mt-1"
+            type="text"
+            v-model="author"
+            name="author"
+            v-validate="'required'"
+          />
+        </b-form-fieldset>
+        <b-form-fieldset
+          label="Comentario acerca del sitio"
+          :feedback="errors.first('comment')"
+          :state="errors.has('comment') ? 'warning' : 'success'"
+          :label-size="1"
+        >
+          <b-form-input class="mt-1"
+            textarea
+            type="text"
+            v-model="comment"
+            name="comment"
+            v-validate="'required'"
+          />
+        </b-form-fieldset>
       </form>
     </b-modal>
   </div>
@@ -67,10 +93,13 @@
   import Vue from 'vue';
   import { mapGetters } from 'vuex'
   import StarRating from 'vue-star-rating'
+  import VeeValidate from 'vee-validate';
+
+  Vue.use(VeeValidate);
 
   export default {
     data: () => ({
-      reviewToAdd: {},
+      score: 0, author: "", comment: "",
     }),
     name: 'Site',
 
@@ -85,17 +114,35 @@
 
       getSiteScore,
 
-      clearModal () {
-        this.reviewToAdd = {}
+      setScore (rating) {
+        this.score = Number(rating)
       },
 
-      setReviewScore (rating) {
-        this.reviewToAdd.score = rating;
+      clearModal () {
+        this.score = 0;
+        this.author = "";
+        this.comment = "";
+      },
+
+      getReview() {
+        let review = {};
+        review.score = this.score;
+        review.author = this.author;
+        review.comment = this.comment;
+        return review
+      },
+
+      submit (e) {
+        this.$validator.validateAll().then( () => {
+          this.addReview();
+        }).catch(() => {
+          return e.cancel()
+        });
       },
 
       addReview () {
-        this.reviewToAdd.score = Number(this.reviewToAdd.score)
-        sendRegisterAReview(this.reviewToAdd, this.currentSite.id).then((response) => {
+        let reviewToAdd = this.getReview();
+        sendRegisterAReview(reviewToAdd, this.currentSite.id).then((response) => {
           this.currentSite.reviews.unshift(response)
         }).catch(error => { alert(error) });
       },

@@ -14,6 +14,8 @@ export function formatDate (dateString) {
 }
 
 export function getSiteScore(site) {
+  if (site.reviews.length == 0) return 0
+
   let score = 0;
   site.reviews.forEach( review => score += review.score );
   return score / site.reviews.length;

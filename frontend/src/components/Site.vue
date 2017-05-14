@@ -35,83 +35,23 @@
       </section>
     </section>
 
-    <b-modal
-      id="addReviewModal"
-      title="Añadir una review"
-      @ok="submit"
-      @shown="clearModal"
-    >
-      <form @submit.stop.prevent="submit">
-        <b-form-fieldset
-          label="Puntuación"
-          :feedback="errors.first('score')"
-          :state="errors.has('score') ? 'warning' : 'success'"
-          :label-size="1"
-        >
-          <star-rating
-            :show-rating="false"
-            @rating-selected="setScore"
-            name="score"
-          />
-        </b-form-fieldset>
-        <b-form-fieldset
-          label="Autor"
-          :feedback="errors.first('author')"
-          :state="errors.has('author') ? 'warning' : 'success'"
-          :label-size="1"
-        >
-          <b-form-input class="mt-1"
-            type="text"
-            v-model="author"
-            name="author"
-            v-validate.initial="'required'"
-          />
-        </b-form-fieldset>
-        <b-form-fieldset
-          label="Comentario acerca del sitio"
-          :feedback="errors.first('comment')"
-          :state="errors.has('comment') ? 'warning' : 'success'"
-          :label-size="1"
-        >
-          <b-form-input class="mt-1"
-            textarea
-            type="text"
-            v-model="comment"
-            name="comment"
-            v-validate.initial="'required'"
-          />
-        </b-form-fieldset>
-      </form>
-    </b-modal>
+    <AddReviewModal />
+
   </div>
 </template>
 
 <script>
   import { formatDate, getSiteScore } from "../utils.js";
-  import { sendRegisterAReview } from "../actions.js";
-  import Vue from 'vue';
-  import { mapGetters } from 'vuex'
-  import StarRating from 'vue-star-rating'
-  import VeeValidate, { Validator } from 'vee-validate';
-  import es from 'vee-validate/dist/locale/es';
-
-  es.attributes = {
-    author: 'Autor',
-    score: 'Puntuación',
-    comment: 'Comentario'
-  };
-
-  Validator.addLocale(es);
-  Vue.use(VeeValidate, { locale: 'es' });
+  import { mapGetters } from 'vuex';
+  import StarRating from 'vue-star-rating';
+  import AddReviewModal from './AddReviewModal';
 
   export default {
-    data: () => ({
-      score: 0, author: "", comment: "",
-    }),
     name: 'Site',
 
     components: {
-      StarRating
+      StarRating,
+      'AddReviewModal': AddReviewModal
     },
 
     computed: mapGetters(['currentSite']),
@@ -120,36 +60,6 @@
       formatDate,
 
       getSiteScore,
-
-      setScore (rating) {
-        this.score = Number(rating)
-      },
-
-      clearModal () {
-        this.score = 0;
-        this.author = "";
-        this.comment = "";
-      },
-
-      getReview() {
-        let review = {};
-        review.score = this.score;
-        review.author = this.author;
-        review.comment = this.comment;
-        return review
-      },
-
-      submit (e) {
-        if (this.errors.any() || this.score == 0) { return e.cancel() }
-        this.addReview();
-      },
-
-      addReview () {
-        let reviewToAdd = this.getReview();
-        sendRegisterAReview(reviewToAdd, this.currentSite.id).then((response) => {
-          this.currentSite.reviews.unshift(response)
-        }).catch(error => { alert(error) });
-      },
     },
   }
 </script>

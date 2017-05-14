@@ -52,7 +52,6 @@
             :show-rating="false"
             @rating-selected="setScore"
             name="score"
-            v-validate="'required'"
           />
         </b-form-fieldset>
         <b-form-fieldset
@@ -65,7 +64,7 @@
             type="text"
             v-model="author"
             name="author"
-            v-validate="'required'"
+            v-validate.initial="'required'"
           />
         </b-form-fieldset>
         <b-form-fieldset
@@ -79,7 +78,7 @@
             type="text"
             v-model="comment"
             name="comment"
-            v-validate="'required'"
+            v-validate.initial="'required'"
           />
         </b-form-fieldset>
       </form>
@@ -93,9 +92,17 @@
   import Vue from 'vue';
   import { mapGetters } from 'vuex'
   import StarRating from 'vue-star-rating'
-  import VeeValidate from 'vee-validate';
+  import VeeValidate, { Validator } from 'vee-validate';
+  import es from 'vee-validate/dist/locale/es';
 
-  Vue.use(VeeValidate);
+  es.attributes = {
+    author: 'Autor',
+    score: 'Puntuación',
+    comment: 'Comentario'
+  };
+
+  Validator.addLocale(es);
+  Vue.use(VeeValidate, { locale: 'es' });
 
   export default {
     data: () => ({
@@ -133,11 +140,8 @@
       },
 
       submit (e) {
-        this.$validator.validateAll().then( () => {
-          this.addReview();
-        }).catch(() => {
-          return e.cancel()
-        });
+        if (this.errors.any() || this.score == 0) { return e.cancel() }
+        this.addReview();
       },
 
       addReview () {

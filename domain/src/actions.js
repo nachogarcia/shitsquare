@@ -43,13 +43,14 @@ function RegisterAReviewAction (siteRepository, clock) {
 
 function GetClosestSitesAction (siteRepository) {
 
+  const NUMBER_OF_SITES = 50;
+
   function run (coordinate) {
     if( !Validation.isValidCoordinate(coordinate) ) {
       return Promise.reject(new Error("Invalid Coordinate"));
     }
 
-    let numberOfSites = 50;
-    return siteRepository.getClosest(coordinate, numberOfSites);
+    return siteRepository.getClosest(coordinate, NUMBER_OF_SITES);
   };
 
   return { run }

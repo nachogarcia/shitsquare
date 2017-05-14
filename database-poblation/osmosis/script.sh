@@ -25,5 +25,4 @@ leisure.sports_centre,\
 leisure.stadium,\
 leisure.water_park,\
 "
-echo $categories
-osmosis --read-pbf europe-latest.osm.pbf --node-key-value keyValueList=$categories --write-xml sites.osm
+osmosis --read-pbf $1 --node-key-value keyValueList=$categories --write-xml sites.osm

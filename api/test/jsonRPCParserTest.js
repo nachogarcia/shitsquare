@@ -1,12 +1,19 @@
 var JsonRPCParser = require('../JsonRPCParser.js')
 
 describe('The parser', () => {
+  let jsonRPCParser;
+
+  beforeEach( () => {
+    jsonRPCParser = new JsonRPCParser();
+  });
+
   describe('parses correctly', () => {
     let expectedResponse;
     let id;
 
     beforeEach( () => {
       id = 1;
+
       expectedResponse = {};
       expectedResponse.body = {};
       expectedResponse.body.jsonrpc = "2.0"
@@ -17,7 +24,7 @@ describe('The parser', () => {
       let error = new Error();
       expectedResponse.body.error = error.message;
 
-      let parsedResponse = JsonRPCParser.parse(error, id);
+      let parsedResponse = jsonRPCParser.parse(error, id);
 
       expect(parsedResponse).to.deep.eq(expectedResponse);
     });
@@ -26,7 +33,7 @@ describe('The parser', () => {
       let result = { a: "1", b: "c" };
       expectedResponse.body.result = result;
 
-      let parsedResponse = JsonRPCParser.parse(result, id);
+      let parsedResponse = jsonRPCParser.parse(result, id);
 
       expect(parsedResponse).to.deep.eq(expectedResponse);
     });
@@ -53,7 +60,7 @@ describe('The parser', () => {
       expectedResult.id = undefined;
       expectedResult.params = [];
 
-      let result = JsonRPCParser.unparse(request);
+      let result = jsonRPCParser.unparse(request);
 
       expect(result).to.deep.eq(expectedResult)
     });
@@ -75,7 +82,7 @@ describe('The parser', () => {
         request.body.params.param2 = param2;
         expectedResult.params = [ param1, param2 ]
 
-        let result = JsonRPCParser.unparse(request);
+        let result = jsonRPCParser.unparse(request);
 
         expect(result).to.deep.eq(expectedResult)
       });
@@ -87,7 +94,7 @@ describe('The parser', () => {
         request.body.params = params;
         expectedResult.params = params;
 
-        let result = JsonRPCParser.unparse(request);
+        let result = jsonRPCParser.unparse(request);
 
         expect(result).to.deep.eq(expectedResult)
       });

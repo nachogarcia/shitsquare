@@ -1,6 +1,6 @@
 class JsonRPCParser {
 
-  static parse(response, id) {
+  parse(response, id) {
     let parsedResponse = {};
     parsedResponse.body = {};
     parsedResponse.body.jsonrpc = "2.0";
@@ -12,7 +12,7 @@ class JsonRPCParser {
     return parsedResponse;
   };
 
-  static unparse(request) {
+  unparse(request) {
     let method = request.body.method;
     let id = request.body.id;
     let params = request.body.params;

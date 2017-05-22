@@ -5,8 +5,10 @@ var Dispatcher = require('./Dispatcher.js')
 var JsonRPCParser = require('./JsonRPCParser.js')
 var app = express()
 
-var factory = new Factory();
-var dispatcher = new Dispatcher();
+let factory = new Factory();
+let dispatcher = new Dispatcher();
+let jsonRPCParser = new JsonRPCParser();
+
 dispatcher.addMethod('getClosestSites',factory.createGetClosestSitesAction().run);
 dispatcher.addMethod('registerASite',factory.createRegisterASiteAction().run);
 dispatcher.addMethod('registerAReview',factory.createRegisterAReviewAction().run);
@@ -21,13 +23,13 @@ app.use((req, res, next) => {
 });
 
 app.post('/api',(req, res) => {
-  let {method, id, params} = JsonRPCParser.unparse(req);
+  let {method, id, params} = jsonRPCParser.unparse(req);
 
   dispatcher.run(method, ...params)
     .then( result => {
-      return res.send(JsonRPCParser.parse(result, id));
+      return res.send(jsonRPCParser.parse(result, id));
     }).catch( error => {
-      return res.send(JsonRPCParser.parse(error, id));
+      return res.send(jsonRPCParser.parse(error, id));
     });
 });
 

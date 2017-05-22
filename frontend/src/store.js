@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 const state = {
   currentSite: {},
-  zoom: 16,
+  zoom: 17,
   center: { lat: 0, lng: 0 },
   closestSites: []
 }

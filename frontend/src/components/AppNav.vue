@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="fixed-top bg-faded">
     <b-link class="navbar-brand" to="/">
-      <img src="../assets/logo.jpg" width="100" height="100">
+      <img src="/static/logo.png" width="150"/>
     </b-link>
   </b-navbar>
 </template>

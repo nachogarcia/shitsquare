@@ -10,7 +10,7 @@
       v-for="site in closestSites"
       :key="site.id"
       :position="siteToMapCoordinates(site)"
-      :icon="require('../assets/marker.png')"
+      :icon="'/static/marker.png'"
       :clickable="true"
       @click="displaySite(site)" />
 

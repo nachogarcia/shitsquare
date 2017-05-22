@@ -65,8 +65,8 @@
 </script>
 
 <style>
-  #site { padding-top: 200px }
+  #site { padding-top: 80px }
   .comment { padding-top: 20px }
-  .addReview-button { width: 200px }
+  .addReview-button { width: 200px; padding: 20px }
   .addReview-rating { width: 100px }
 </style>

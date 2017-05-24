@@ -1,0 +1,14 @@
+---
+root_password: "foo"
+
+unattended_origins_patterns:
+  - "origin=${distro_id},codename=${distro_codename},label=${distro_id}-Security"
+
+users:
+  - username: nacho
+    name: Nacho García
+    uid: 10001
+    groups: ["sudo"]
+    password: "foo"
+    ssh_key:
+    - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJO/0WitYhNQ5sP0tsUhhriQUN4DYXTU2w1uHuSI1Uj8v33TsYYC0XOSqckiuP92TpiibpESwVOSU3mWUjF6TUcB2RJdu6DSRAV65C9MOXCf+zATb9z/jS+Ye+BF0LWI84N6dLqumcPIbtgOhObdE5FM0dJgCqZCFhMywCYUhHJUze/rLR3A61PK9wff76EH6JoAaPh47qw4W1ERx+OHs5uGmzEcXmMyzryw+O4E1h+/mYR5c7+C2J6anR2Wa5yFIg9u8vlQwbd6F6+elcAKaHXuVxD1eu+sjkN+bN0y5O121BgyOiSTiCSSejpQ1PZR+uWNo2iKnC8kcofgn1rrel nacho@tsukuri"

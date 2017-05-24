@@ -33,7 +33,7 @@ app.post('/api',(req, res) => {
     });
 });
 
-let port = process.env.PORT || 8000;
+let port = process.env.API_PORT || 8000;
 
 app.listen(port, () => {
   console.log('shitsquare-api listening on port ' + port)

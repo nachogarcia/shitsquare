@@ -1,0 +1,17 @@
+- name: add nodesource key
+  apt_key:
+    url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+
+- name: add nodesource repository
+  apt_repository:
+    repo="{{ item }}"
+    state=present
+  with_items:
+    - "deb https://deb.nodesource.com/node_6.x {{ansible_distribution_release}} main"
+    - "deb-src https://deb.nodesource.com/node_6.x {{ansible_distribution_release}} main"
+
+- name: install package
+  apt:
+    pkg=nodejs
+    default_release={{ ansible_distribution_release }}
+    state=present

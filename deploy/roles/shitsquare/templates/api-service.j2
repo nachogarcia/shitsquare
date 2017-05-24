@@ -1,0 +1,19 @@
+[Unit]
+Description=Shitsquare API Server
+
+[Service]
+ExecStart=/usr/bin/node /var/www/shitsquare/api/server.js
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=shitsquare-api
+
+Environment=DATABASE_URL=postgres://shitsquareuser:shitsquarepassword@localhost:5432/shitsquaredb
+Environment=NODE_ENV=production
+Environment=API_PORT=8000
+
+WorkingDirectory=/var/www/shitsquare/api
+
+[Install]
+WantedBy=multi-user.target

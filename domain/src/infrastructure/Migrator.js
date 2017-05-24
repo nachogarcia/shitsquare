@@ -26,11 +26,11 @@ class Migrator {
   }
 
   createTables () {
-    return this.connection.query('CREATE TABLE sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)');
+    return this.connection.query('CREATE TABLE IF NOT EXISTS sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)');
   }
 
   createIndex () {
-    return this.connection.query("CREATE INDEX coordinate_index ON sites USING GIST (\
+    return this.connection.query("CREATE INDEX IF NOT EXISTS coordinate_index ON sites USING GIST (\
       st_setsrid(st_makepoint((data -> 'coordinate' -> 'x')::text::double precision,\
       (data -> 'coordinate' -> 'y')::text::double precision),4326))");
   }

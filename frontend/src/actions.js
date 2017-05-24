@@ -1,4 +1,3 @@
-const url = 'http://localhost:8000/api'
 
 export function sendRegisterASite(siteData) {
   let method = 'registerASite'
@@ -40,7 +39,7 @@ function post (body) {
       'Content-Type': 'application/json'
     }
   }
-  return fetch(url, fetchData)
+  return fetch(process.env.API_URL, fetchData)
   .then(response => response.json() )
   .then(json => { return parseResponse(json) });
 }

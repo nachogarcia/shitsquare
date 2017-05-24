@@ -1,5 +1,7 @@
-
 # Created by https://www.gitignore.io/api/vim,node
+
+### Vagrant ###
+.vagrant/
 
 ### Node ###
 # Logs

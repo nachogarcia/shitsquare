@@ -1,0 +1,4 @@
+---
+postgresql_version: "9.6"
+postgresql_data_directory: "/var/lib/postgresql/{{ postgresql_version }}/main"
+postgresql_listen_addresses: "*"

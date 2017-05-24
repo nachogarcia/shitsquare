@@ -1,0 +1,2 @@
+---
+postgresql_previous_data_directory: "/var/lib/postgresql/{{ postgresql_version }}/main"

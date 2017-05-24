@@ -1,5 +1,6 @@
 ---
 - name: configure debian backports
-  template:
-    src=backports.list.j2
-    dest=/etc/apt/sources.list.d/backports.list
+  apt_repository:
+    repo="deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main"
+    state=present
+    filename="backports"

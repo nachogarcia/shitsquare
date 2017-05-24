@@ -44,6 +44,7 @@
   shell: node "{{ shitsquare_path }}/domain/DBHandler.js" init
   environment:
     DATABASE_URL: "{{ database_url }}"
+
 - name: create api service
   environment:
     DATABASE_URL: "{{ database_url }}"

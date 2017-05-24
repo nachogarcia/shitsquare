@@ -4,6 +4,7 @@
     - secrets.yml
   roles:
     - base
+    - nginx
     - postgresql
     - node.js
     - shitsquare

@@ -3,7 +3,6 @@
   apt:
     pkg={{ item }}
     state=present
-    default_release={{ansible_distribution_release}}-backports
   with_items:
     - postgresql
     - python-psycopg2
@@ -22,7 +21,7 @@
 - name: configure server
   template:
     src=postgresql.conf.j2
-    dest=/etc/postgresql/9.6/main/postgresql.conf
+    dest=/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
   notify: postgresql restart
 
 - name: start service

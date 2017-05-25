@@ -25,35 +25,3 @@
   postgresql_ext:
     name: postgis
     db: "{{ shitsquare_database }}"
-
-- name: clone repository
-  git:
-    repo: 'https://github.com/nachogarcia/shitsquare.git'
-    dest: "{{ shitsquare_path }}"
-    force: yes
-
-- name: install domain packages
-  npm:
-    path: "{{ shitsquare_path }}/domain"
-
-- name: install api packages
-  npm:
-    path: "{{ shitsquare_path }}/api"
-
-- name: initialize database
-  shell: node "{{ shitsquare_path }}/domain/DBHandler.js" init
-  environment:
-    DATABASE_URL: "{{ database_url }}"
-
-- name: create api service
-  environment:
-    DATABASE_URL: "{{ database_url }}"
-  template:
-    src=api-service.j2
-    dest=/etc/systemd/system/shitsquare-api.service
-
-- name: start api service
-  service:
-    name: shitsquare-api
-    enabled: yes
-    state: started

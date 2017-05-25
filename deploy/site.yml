@@ -17,9 +17,16 @@
              - proxy_pass: http://127.0.0.1:8000
              - proxy_read_timeout: 90
 
+      ansistrano_deploy_to: "{{ shitsquare_path }}"
+      ansistrano_keep_releases: 3
+      ansistrano_deploy_via: git
+      ansistrano_git_repo: 'https://github.com/nachogarcia/shitsquare.git'
+      ansistrano_after_update_code_tasks_file: 'deploy/shitsquare/after_update_code.yml'
+
   roles:
     - base
     - nginx
     - postgresql
     - node.js
     - shitsquare
+    - carlosbuenosvinos.ansistrano-deploy

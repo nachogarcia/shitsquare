@@ -1,0 +1,26 @@
+[Unit]
+Description=Shitsquare API Server
+
+After=network.target
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+ExecStart=/usr/bin/node '{{ ansistrano_release_path.stdout }}/api/server.js'
+
+Restart=always
+RestartSec=10
+
+StandardOutput=syslog
+StandardError=syslog
+
+SyslogIdentifier=shitsquare-api
+
+Environment=NODE_ENV=production
+Environment=API_PORT=8000
+Environment=DATABASE_URL={{ database_url }}
+
+WorkingDirectory={{ ansistrano_release_path.stdout }}/api
+
+[Install]
+WantedBy=multi-user.target

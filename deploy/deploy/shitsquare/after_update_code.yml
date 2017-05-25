@@ -1,0 +1,24 @@
+---
+- name: install domain packages
+  npm:
+    path: "{{ ansistrano_release_path.stdout }}/domain"
+
+- name: install api packages
+  npm:
+    path: "{{ ansistrano_release_path.stdout }}/api"
+
+- name: initialize database
+  shell: node "{{ ansistrano_release_path.stdout }}/domain/DBHandler.js" init
+  environment:
+    DATABASE_URL: "{{ database_url }}"
+
+- name: create api service
+  template:
+    src=api-service.j2
+    dest=/etc/systemd/system/shitsquare-api.service
+
+- name: start api service
+  service:
+    name: shitsquare-api
+    enabled: yes
+    state: started

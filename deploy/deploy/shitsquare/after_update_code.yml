@@ -2,10 +2,12 @@
 - name: install domain packages
   npm:
     path: "{{ ansistrano_release_path.stdout }}/domain"
+    production: yes
 
 - name: install api packages
   npm:
     path: "{{ ansistrano_release_path.stdout }}/api"
+    production: yes
 
 - name: initialize database
   shell: node "{{ ansistrano_release_path.stdout }}/domain/DBHandler.js" init

@@ -17,7 +17,7 @@
              - proxy_pass: http://127.0.0.1:8000
              - proxy_read_timeout: 90
 
-      ansistrano_deploy_to: "{{ shitsquare_path }}"
+      ansistrano_deploy_to: /var/opt/shitsquare
       ansistrano_keep_releases: 3
       ansistrano_deploy_via: git
       ansistrano_git_repo: 'https://github.com/nachogarcia/shitsquare.git'

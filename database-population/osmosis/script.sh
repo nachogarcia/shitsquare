@@ -25,4 +25,4 @@ leisure.sports_centre,\
 leisure.stadium,\
 leisure.water_park,\
 "
-osmosis --read-pbf $1 --node-key-value keyValueList=$categories --write-xml sites.osm
+osmosis --read-pbf $1 --node-key-value keyValueList=$categories --write-xml $2

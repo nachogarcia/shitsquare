@@ -1,16 +1,37 @@
 var fs = require('fs');
 var sax = require('sax');
-var Factory = require('../domain/src/Factory.js')
+var fetch = require('node-fetch')
 
 var stream = sax.createStream();
-var factory = new Factory();
-var connection = factory.createDBConnection();
-var registerASiteAction = factory.createRegisterASiteAction();
 
-const FILE = '/osmosis/sites.osm'
+const FILE = process.argv[2]
+const URL = process.argv[3]
 
 let siteData = {};
 let actions = 0;
+
+let sendRegisterASite = (siteData) => {
+  let method = 'registerASite'
+  let id = '1'
+  let params = {}
+  params.siteData = siteData;
+
+  let body = { method, params, id }
+
+  return post(body)
+}
+
+let post = (body) => {
+  let fetchData = {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+  return fetch(URL, fetchData)
+}
 
 stream.on("opentag", node => {
   if (node.attributes) {
@@ -25,7 +46,7 @@ stream.on("opentag", node => {
       siteData.name = node.attributes.V
       actions++;
       readStream.pause()
-      registerASiteAction.run(siteData).then( (site) => {
+      sendRegisterASite(siteData).then( () => {
         if(actions <= 1){
           readStream.resume()
         }

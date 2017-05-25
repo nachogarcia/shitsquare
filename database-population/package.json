@@ -8,6 +8,7 @@
   "author": "Nacho García",
   "license": "ISC",
   "dependencies": {
+    "node-fetch": "^1.7.0",
     "sax": "^1.2.2"
   }
 }

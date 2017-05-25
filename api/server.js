@@ -22,7 +22,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/api',(req, res) => {
+let endpoint = process.env.API_ENDPOINT || '/';
+
+app.post(endpoint,(req, res) => {
   let {method, id, params} = jsonRPCParser.unparse(req);
 
   dispatcher.run(method, ...params)

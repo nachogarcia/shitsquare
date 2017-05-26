@@ -9,6 +9,8 @@ export function browserToMapCoordinates (position) {
   };
 }
 
+export function ipLocationToMapCoordinates (data) { return { lat: data.latitude, lng: data.longitude } }
+
 export function formatDate (dateString) {
   return new Date(dateString).toLocaleDateString();
 }

@@ -1,8 +1,9 @@
 import { browserToMapCoordinates, ipLocationToMapCoordinates } from "./utils.js"
+const uuidV4 = require('uuid/v4');
 
 export function sendRegisterASite(siteData) {
   let method = 'registerASite'
-  let id = '1'
+  let id = uuidV4();
   let params = {}
   params.siteData = siteData;
 
@@ -13,7 +14,7 @@ export function sendRegisterASite(siteData) {
 
 export function sendGetClosestSites (coordinate) {
   let method = 'getClosestSites'
-  let id = '2'
+  let id = uuidV4();
   let params = {};
   params.coordinate = coordinate;
 
@@ -24,7 +25,7 @@ export function sendGetClosestSites (coordinate) {
 
 export function sendRegisterAReview (reviewData, siteId) {
   let method = 'registerAReview'
-  let id = '3'
+  let id = uuidV4();
   let params = [reviewData, siteId];
   let body = { method, params, id }
 

@@ -1,3 +1,4 @@
+import { browserToMapCoordinates, ipLocationToMapCoordinates } from "./utils.js"
 
 export function sendRegisterASite(siteData) {
   let method = 'registerASite'
@@ -28,6 +29,39 @@ export function sendRegisterAReview (reviewData, siteId) {
   let body = { method, params, id }
 
   return post(body)
+}
+
+export function getCurrentPosition () {
+  return getPositionFromNavigator().then( (position) => {
+    return browserToMapCoordinates(position);
+  }).catch( (error) => {
+    return getPositionByIP();
+  });
+}
+
+function getPositionFromNavigator (options) {
+  return new Promise( (resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  });
+}
+
+function getPositionByIP () {
+  const SERVICE_URL = 'https://ipapi.co/json/';
+  let headers = new Headers();
+
+  let options = {
+    method: 'GET',
+    headers: headers,
+    mode: 'cors',
+    cache: 'default'
+  };
+
+  return fetch(SERVICE_URL, options)
+    .then(response => response.json())
+    .then((data) => {
+      let position = ipLocationToMapCoordinates(data);
+      return position
+    });
 }
 
 function post (body) {

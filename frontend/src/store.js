@@ -1,5 +1,5 @@
-import { sendRegisterASite, sendGetClosestSites } from "./actions.js"
-import { siteToMapCoordinates, mapToSiteCoordinates, browserToMapCoordinates, ipLocationToMapCoordinates } from "./utils.js"
+import { sendRegisterASite, sendGetClosestSites, getCurrentPosition } from "./actions.js"
+import { siteToMapCoordinates, mapToSiteCoordinates } from "./utils.js"
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -33,26 +33,9 @@ const mutations = {
 
 const actions = {
   setInitialLocation ({ commit }) {
-    navigator.geolocation.getCurrentPosition( (position) => {
-      position = browserToMapCoordinates(position);
+    getCurrentPosition().then( (position) => {
       commit('center', position);
-    }, (error) => {
-      let headers = new Headers();
-
-      let options = {
-        method: 'GET',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
-      };
-
-      fetch('https://ipapi.co/json/', options)
-        .then(response => response.json())
-        .then((data) => {
-        let position = ipLocationToMapCoordinates(data);
-        commit('center', position);
-      })
-    });
+    })
   },
 
   updateClosestSites ({ commit, state }) {

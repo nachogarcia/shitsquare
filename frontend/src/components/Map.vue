@@ -31,6 +31,7 @@
     name: 'Map',
 
     data: () => ({
+      waitingToUpdateSites: false,
       styles: [
         { "featureType": "poi",
           "stylers": [
@@ -54,11 +55,20 @@
       },
 
       updateCenter: function (mapCoordinate) {
+        const TIME_BETWEEN_UPDATES = 1500;
+
         let lat = mapCoordinate.lat();
         let lng = mapCoordinate.lng();
 
         this.$store.commit('center', {lat, lng});
-        this.updateClosestSites();
+
+        if (!this.waitingToUpdateSites) {
+          this.waitingToUpdateSites = true;
+          setTimeout( () => {
+            this.updateClosestSites();
+            this.waitingToUpdateSites = false;
+          }, TIME_BETWEEN_UPDATES);
+        }
       },
 
       displaySite: function (site) {

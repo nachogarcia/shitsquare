@@ -2,7 +2,8 @@
 dependencies:
   - { role: backports }
   - { role: apt }
-  - { role: fail2ban }
+  - { role: yatesr.timezone }
+  - { role: tersmitten.fail2ban }
   - { role: sudo }
   - { role: mivok0.users }
   - { role: ssh }

@@ -1,7 +1,32 @@
 # Created by https://www.gitignore.io/api/vim,node
 
+### Ansible ###
+# Ansible retry files
+*.retry
+# Galaxy roles
+galaxy
+
+# Test driven development on Ansible with Molecule, Testinfra and pytest
+.cache/
+.idea/
+.molecule/
+.tox/
+__pycache__/
+tests/roles
+*.pyc
+
+### Terraform ###
+# Terraform - https://terraform.io/
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+
+### Terraform Patch ###
 ### Vagrant ###
 .vagrant/
+
+# End of https://www.gitignore.io/api/vagrant,ansible,terraform
 
 ### Node ###
 # Logs

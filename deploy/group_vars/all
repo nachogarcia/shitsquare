@@ -1,6 +1,8 @@
 ---
 root_password: "$6$M/kFURvqf.M$ViFFb3RJ7hMuI3t2mTahkIdr28HBPd1YWNq3/dfOkuoYCxViIvZWACAmU6u/70xSodN3rFzQBLWSIeUAn8db8/"
 
+timezone: Europe/Madrid
+
 unattended_origins_patterns:
   - "origin=${distro_id},codename=${distro_codename},label=${distro_id}-Security"
 

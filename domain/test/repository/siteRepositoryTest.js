@@ -1,10 +1,7 @@
-var SiteRepository = require('../../src/model/SiteRepository.js')
-var actions = require('../../src/actions.js')
 var Factory = require('../../src/Factory.js')
 var Site = require('../../src/model/Site.js')
 var Review = require('../../src/model/Review.js')
 var Coordinate = require('../../src/model/Coordinate.js')
-var Migrator = require('../../src/infrastructure/Migrator.js')
 
 describe('Site Repository', () => {
   let siteRepository

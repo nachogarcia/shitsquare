@@ -3,8 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "standard": {
+    "env": [ "mocha", "node" ],
+    "globals": [
+      "sinon",
+      "expect"
+    ]
+  },
   "scripts": {
-    "test": "standard --env mocha --globals sinon expect && mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
+    "test": "standard && mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
   },
   "author": "Nacho García",
   "license": "ISC",

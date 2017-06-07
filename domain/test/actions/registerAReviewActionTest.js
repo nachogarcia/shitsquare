@@ -1,15 +1,13 @@
 var actions = require('../../src/actions.js')
 var Site = require('../../src/model/Site.js')
 var Coordinate = require('../../src/model/Coordinate.js')
-var Review = require('../../src/model/Review.js')
 
 describe('Register a Review Action', () => {
-  let reviewRepository
+  let siteRepository
   let site
   let reviewData
   let registerAReviewAction
   let time
-  let review
 
   beforeEach(() => {
     time = 'An irrelevant time'

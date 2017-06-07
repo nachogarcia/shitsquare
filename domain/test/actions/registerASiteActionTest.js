@@ -1,5 +1,4 @@
 var actions = require('../../src/actions.js')
-var Site = require('../../src/model/Site.js')
 var Coordinate = require('../../src/model/Coordinate.js')
 
 describe('Register a Site Action', () => {

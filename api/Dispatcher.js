@@ -8,7 +8,7 @@ class Dispatcher {
   }
 
   run (method, ...params) {
-    if (!this.methods[method]) return Promise.reject(new Error('Non Existing Method'))
+    if (!this.methods.hasOwnProperty(method)) return Promise.reject(new Error('Non Existing Method'))
     return this.methods[method](...params);
   }
 }

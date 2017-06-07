@@ -1,16 +1,11 @@
-var faker = require('faker');
-
-var Site = require('../model/Site.js');
-var Review = require('../model/Review.js');
-var Coordinate = require('../model/Coordinate.js');
-
+var faker = require('faker')
+var Coordinate = require('../model/Coordinate.js')
 
 class Migrator {
-
-  constructor(connection, registerASiteAction, registerAReviewAction){
-    this.connection = connection;
-    this.registerASiteAction = registerASiteAction;
-    this.registerAReviewAction = registerAReviewAction;
+  constructor (connection, registerASiteAction, registerAReviewAction) {
+    this.connection = connection
+    this.registerASiteAction = registerASiteAction
+    this.registerAReviewAction = registerAReviewAction
   }
 
   close () {
@@ -22,84 +17,88 @@ class Migrator {
       return this.createTables()
     }).then(() => {
       return this.createIndex()
-    });
+    })
   }
 
   createTables () {
-    return this.connection.query('CREATE TABLE IF NOT EXISTS sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)');
+    return this.connection.query('CREATE TABLE IF NOT EXISTS sites (id uuid CONSTRAINT pkey PRIMARY KEY, data jsonb)')
   }
 
   createIndex () {
-    return this.connection.query("CREATE INDEX IF NOT EXISTS coordinate_index ON sites USING GIST (\
-      st_setsrid(st_makepoint((data -> 'coordinate' -> 'x')::text::double precision,\
-      (data -> 'coordinate' -> 'y')::text::double precision),4326))");
+    return this.connection.query(`CREATE INDEX IF NOT EXISTS coordinate_index ON sites USING GIST (
+      st_setsrid(
+        st_makepoint(
+          (data -> 'coordinate' -> 'x')::text::double precision,
+          (data -> 'coordinate' -> 'y')::text::double precision)
+        ,4326)
+      )`)
   }
 
   dropTables () {
-    return this.connection.query('DROP TABLE IF EXISTS sites');
+    return this.connection.query('DROP TABLE IF EXISTS sites')
   }
 
   poblateFake () {
-    let promise = this.createSite();
-    for(let i = 0; i < 500; i++){
-      promise = promise.then( () => { return this.createSite() });
+    let promise = this.createSite()
+    for (let i = 0; i < 500; i++) {
+      promise = promise.then(() => { return this.createSite() })
     }
-    return promise;
+    return promise
   }
 
   createSite () {
-    let siteData = {};
-    siteData.name = faker.company.companyName();
-    siteData.coordinate = this.fakeCoordinate();
+    let siteData = {}
+    siteData.name = faker.company.companyName()
+    siteData.coordinate = this.fakeCoordinate()
 
-    return this.registerASiteAction.run(siteData).then( site => {
-      let promise = this.createReview(site.id);
-      for(let j = 0; j < this.numberOfReviews(); j++){
-        promise = promise.then( () => { return this.createReview(site.id) });
+    return this.registerASiteAction.run(siteData).then(site => {
+      let promise = this.createReview(site.id)
+      for (let j = 0; j < this.numberOfReviews(); j++) {
+        promise = promise.then(() => { return this.createReview(site.id) })
       }
-      return promise;
-    });
+      return promise
+    })
   }
 
   createReview (id) {
-    let reviewData = {};
-    reviewData.author = faker.name.findName();
-    reviewData.score = this.fakeScore();
-    reviewData.comment = faker.lorem.sentences();
-    return this.registerAReviewAction.run(reviewData, id);
+    let reviewData = {}
+    reviewData.author = faker.name.findName()
+    reviewData.score = this.fakeScore()
+    reviewData.comment = faker.lorem.sentences()
+    return this.registerAReviewAction.run(reviewData, id)
   }
 
   numberOfReviews () {
     return faker.random.number({
       'min': 0,
       'max': 15
-    });
+    })
   }
 
-  fakeScore (){
+  fakeScore () {
     return faker.random.number({
       'min': 1,
       'max': 5
-    });
+    })
   }
 
-  fakeCoordinate(){
+  fakeCoordinate () {
     return new Coordinate(
       parseFloat(
-        41.6 + "" +
+        41.6 + '' +
         faker.random.number({
           'min': 100000,
-          'max': 999999,
+          'max': 999999
         })
       ),
       parseFloat(
-        "-0." +
+        '-0.' +
         faker.random.number({
           'min': 8000000,
-          'max': 9999999,
+          'max': 9999999
         })
       )
-    );
+    )
   }
 }
 

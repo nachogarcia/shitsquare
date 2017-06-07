@@ -1,6 +1,6 @@
-class Clock{
-  now() {
-    return new Date().toUTCString();
+class Clock {
+  now () {
+    return new Date().toUTCString()
   }
 }
 

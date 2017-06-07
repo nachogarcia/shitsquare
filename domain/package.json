@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
+    "test": "standard --env mocha --globals sinon expect && mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
   },
   "author": "Nacho García",
   "license": "ISC",
@@ -14,9 +14,10 @@
     "faker": "^4.1.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
-    "chai": "^3.5.0"
+    "standard": "^10.0.2"
   }
 }

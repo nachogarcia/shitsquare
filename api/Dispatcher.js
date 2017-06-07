@@ -1,15 +1,15 @@
 class Dispatcher {
   constructor () {
-    this.methods = {};
+    this.methods = {}
   }
 
   addMethod (name, method) {
-    this.methods[name] = method;
+    this.methods[name] = method
   }
 
   run (method, ...params) {
     if (!this.methods.hasOwnProperty(method)) return Promise.reject(new Error('Non Existing Method'))
-    return this.methods[method](...params);
+    return this.methods[method](...params)
   }
 }
 

@@ -3,8 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "standard": {
+    "env": [ "mocha", "node" ],
+    "globals": [
+      "sinon",
+      "expect"
+    ]
+  },
   "scripts": {
-    "test": "mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
+    "test": "standard && mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
   },
   "author": "Nacho García",
   "license": "ISC",
@@ -13,9 +20,10 @@
     "express": "^4.15.2"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
-    "chai": "^3.5.0"
+    "standard": "^10.0.2"
   }
 }

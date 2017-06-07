@@ -42,14 +42,14 @@ class SiteRepository{
 
   getClosest (coordinate, numberOfSites) {
     return this.DBConnection.query(
-    "SELECT * FROM sites\
-      ORDER BY\
-        st_setsrid(st_makepoint(\
-          (data -> 'coordinate' -> 'x')::text::double precision,\
-          (data -> 'coordinate' -> 'y')::text::double precision),\
-        4326)\
-      <-> st_setsrid(st_makepoint($1,$2),4326)\
-      LIMIT $3", [ coordinate.x, coordinate.y, numberOfSites ]).then( (result) => {
+    `SELECT * FROM sites
+      ORDER BY
+        st_setsrid(st_makepoint(
+          (data -> 'coordinate' -> 'x')::text::double precision,
+          (data -> 'coordinate' -> 'y')::text::double precision),
+        4326)
+      <-> st_setsrid(st_makepoint($1,$2),4326)
+      LIMIT $3`, [ coordinate.x, coordinate.y, numberOfSites ]).then( (result) => {
       return result.rows.map( site => {
         let siteData = site['data'];
         siteData.id = site['id'];

@@ -2,6 +2,7 @@ var SiteRepository = require('./model/SiteRepository.js')
 var Migrator = require('./infrastructure/Migrator.js')
 var Clock = require('./infrastructure/Clock.js')
 var actions = require('./actions.js')
+var Validator = require('./model/Validator.js')
 var Client = require('pg').Client
 
 class Factory {
@@ -33,6 +34,11 @@ class Factory {
   createGetClosestSitesAction () {
     this.getClosestSitesAction = this.getClosestSitesAction || new actions.GetClosestSitesAction(this.createSiteRepository())
     return this.getClosestSitesAction
+  }
+
+  createValidator () {
+    this.validator = this.validator || new Validator()
+    return this.validator
   }
 
   createMigrator () {

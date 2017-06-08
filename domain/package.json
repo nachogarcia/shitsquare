@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "standard": {
-    "env": [ "mocha", "node" ],
+    "env": [
+      "mocha",
+      "node"
+    ],
     "globals": [
       "sinon",
       "expect"
@@ -16,9 +19,10 @@
   "author": "Nacho García",
   "license": "ISC",
   "dependencies": {
+    "faker": "^4.1.0",
+    "joi": "^10.5.2",
     "pg": "^6.1.5",
-    "uuid": "^3.0.1",
-    "faker": "^4.1.0"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

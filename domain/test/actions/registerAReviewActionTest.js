@@ -18,8 +18,8 @@ describe('Register a Review Action', () => {
       nextReviewId: () => 'reviewId'}
     sinon.spy(siteRepository, 'put')
 
-    site = new Site({id: siteRepository.nextSiteId(), name: 'a name', coordinate: new Coordinate(0, 0)})
-    reviewData = {id: siteRepository.nextReviewId(), score: 5, author: 'An author', comment: 'A comment about the site'}
+    site = new Site({ name: 'a name', coordinate: new Coordinate(0, 0) })
+    reviewData = { score: 5, author: 'An author', comment: 'A comment about the site' }
 
     let clock = {now: () => {}}
     sinon.stub(clock, 'now').callsFake(() => {

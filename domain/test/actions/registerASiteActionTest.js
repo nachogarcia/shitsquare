@@ -14,7 +14,7 @@ describe('Register a Site Action', () => {
     }
     sinon.spy(siteRepository, 'put')
 
-    siteData = {id: siteRepository.nextSiteId(), name: 'A site', coordinate: new Coordinate(0, 0)}
+    siteData = { name: 'A site', coordinate: new Coordinate(0, 0) }
 
     registerASiteAction = actions.RegisterASiteAction(siteRepository)
   })

@@ -1,15 +1,20 @@
 var Coordinate = require('../../src/model/Coordinate.js')
-var Validation = require('../../src/model/Validation.js')
+var Validator = require('../../src/model/Validator.js')
 
-describe('Validation', () => {
+describe('validator', () => {
+  let validator
   let siteData
   let reviewData
+
+  beforeEach(() => {
+    validator = new Validator()
+  })
 
   describe('when validating a coordinate', () => {
     it('checks the type of x', () => {
       let coordinate = new Coordinate('a', 5)
 
-      let result = Validation.isValidCoordinate(coordinate)
+      let result = validator.isValidCoordinate(coordinate)
 
       expect(result).to.eq(false)
     })
@@ -17,7 +22,7 @@ describe('Validation', () => {
     it('checks the type of y', () => {
       let coordinate = new Coordinate(-8, {})
 
-      let result = Validation.isValidCoordinate(coordinate)
+      let result = validator.isValidCoordinate(coordinate)
 
       expect(result).to.eq(false)
     })
@@ -25,7 +30,7 @@ describe('Validation', () => {
     it('accepts a valid coordinate', () => {
       let coordinate = new Coordinate(-8, 5)
 
-      let result = Validation.isValidCoordinate(coordinate)
+      let result = validator.isValidCoordinate(coordinate)
 
       expect(result).to.eq(true)
     })
@@ -42,7 +47,7 @@ describe('Validation', () => {
     it('checks its coordinate', () => {
       siteData.coordinate = new Coordinate('a', 4)
 
-      let result = Validation.isValidSite(siteData)
+      let result = validator.isValidSite(siteData)
 
       expect(result).to.eq(false)
     })
@@ -50,13 +55,13 @@ describe('Validation', () => {
     it('checks its name', () => {
       siteData.name = undefined
 
-      let result = Validation.isValidSite(siteData)
+      let result = validator.isValidSite(siteData)
 
       expect(result).to.eq(false)
     })
 
     it('accepts a valid site', () => {
-      let result = Validation.isValidSite(siteData)
+      let result = validator.isValidSite(siteData)
 
       expect(result).to.eq(true)
     })
@@ -74,7 +79,7 @@ describe('Validation', () => {
     it('checks its author', () => {
       reviewData.author = undefined
 
-      let result = Validation.isValidReview(reviewData)
+      let result = validator.isValidReview(reviewData)
 
       expect(result).to.eq(false)
     })
@@ -82,7 +87,7 @@ describe('Validation', () => {
     it('checks its comment', () => {
       reviewData.comment = undefined
 
-      let result = Validation.isValidReview(reviewData)
+      let result = validator.isValidReview(reviewData)
 
       expect(result).to.eq(false)
     })
@@ -91,21 +96,21 @@ describe('Validation', () => {
       it('checks it is >= 1', () => {
         reviewData.score = 0.9
 
-        let result = Validation.isValidReview(reviewData)
+        let result = validator.isValidReview(reviewData)
 
         expect(result).to.eq(false)
       })
       it('checks it is <= 5', () => {
         reviewData.score = 5.1
 
-        let result = Validation.isValidReview(reviewData)
+        let result = validator.isValidReview(reviewData)
 
         expect(result).to.eq(false)
       })
     })
 
     it('accepts a valid review', () => {
-      let result = Validation.isValidReview(reviewData)
+      let result = validator.isValidReview(reviewData)
 
       expect(result).to.eq(true)
     })

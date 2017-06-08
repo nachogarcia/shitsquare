@@ -23,7 +23,7 @@ describe('The dispatcher', () => {
     it('a method without parameters', () => {
       dispatcher.run('method')
 
-      expect(method).to.have.been.calledOnce
+      expect(method).to.have.been.calledOnce // eslint-disable-line
     })
 
     it('a method with one parameter', () => {

@@ -28,8 +28,8 @@ describe('Site Repository', () => {
   })
 
   it("generates next id's", () => {
-    expect(siteRepository.nextSiteId()).to.not.be.undefined
-    expect(siteRepository.nextReviewId()).to.not.be.undefined
+    expect(siteRepository.nextSiteId()).to.not.be.undefined // eslint-disable-line
+    expect(siteRepository.nextReviewId()).to.not.be.undefined // eslint-disable-line
   })
 
   it('stores a site', () => {

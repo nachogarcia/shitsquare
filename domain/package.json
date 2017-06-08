@@ -11,7 +11,7 @@
     ]
   },
   "scripts": {
-    "test": "standard && mocha --require test/helper.js --reporter spec $(find test -name '*.js')"
+    "test": "mocha --require test/helper.js --reporter spec $(find test -name '*.js') && standard"
   },
   "author": "Nacho García",
   "license": "ISC",

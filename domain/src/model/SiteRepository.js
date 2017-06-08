@@ -13,7 +13,7 @@ class SiteRepository {
     siteData = JSON.stringify(siteData)
 
     return this.insert(site.id, siteData)
-    .catch((error) => {
+    .catch(() => {
       return this.update(site.id, siteData)
     })
   };

@@ -1,4 +1,4 @@
-const GetCurrentPositionAction = require('../../src/actions/GetCurrentPositionAction.js')
+import GetCurrentPositionAction from '../../src/actions/GetCurrentPositionAction.js'
 
 describe('GetCurrentPositionAction', () => {
   it('gets the current map position from a service', () => {

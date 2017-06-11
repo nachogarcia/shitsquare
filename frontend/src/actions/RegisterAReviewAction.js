@@ -14,4 +14,4 @@ function RegisterAReviewAction (APIService) {
   return { run }
 }
 
-module.exports = RegisterAReviewAction
+export default RegisterAReviewAction

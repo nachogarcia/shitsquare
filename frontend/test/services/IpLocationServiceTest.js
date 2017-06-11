@@ -1,4 +1,4 @@
-const IpLocationService = require('../../src/services/IpLocationService.js')
+import IpLocationService from '../../src/services/IpLocationService.js'
 
 describe('IpLocationService', () => {
   it('returns a resolved promise with the result of the petition', () => {

@@ -1,5 +1,4 @@
-const browserToMapCoordinates = require('../utils.js').browserToMapCoordinates
-const ipLocationToMapCoordinates = require('../utils.js').ipLocationToMapCoordinates
+import { browserToMapCoordinates, ipLocationToMapCoordinates } from '../utils.js'
 
 function GetCurrentPositionAction (IpLocationService) {
   function run () {
@@ -21,4 +20,4 @@ function getPositionFromNavigator (options) {
   })
 }
 
-module.exports = GetCurrentPositionAction
+export default GetCurrentPositionAction

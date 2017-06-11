@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import Factory from "../Factory.js"
+  import Factory from "../Factory"
   const factory = new Factory()
   const registerAReviewAction = factory.createRegisterAReviewAction()
 

@@ -1,4 +1,4 @@
-const RegisterASiteAction = require('../../src/actions/RegisterASiteAction.js')
+import RegisterASiteAction from '../../src/actions/RegisterASiteAction.js'
 
 describe('RegisterASiteAction', () => {
   it('registers a site on the backend', () => {

@@ -1,4 +1,4 @@
-const APIService = require('../../src/services/APIService.js')
+import APIService from '../../src/services/APIService.js'
 
 describe('APIService', () => {
   let service

@@ -1,4 +1,4 @@
-const RegisterAReviewAction = require('../../src/actions/RegisterAReviewAction.js')
+import RegisterAReviewAction from '../../src/actions/RegisterAReviewAction.js'
 
 describe('RegisterAReviewAction', () => {
   it('registers a review on the backend', () => {

@@ -1,4 +1,4 @@
-const GetClosestSitesAction = require('../../src/actions/GetClosestSitesAction.js')
+import GetClosestSitesAction from '../../src/actions/GetClosestSitesAction'
 
 describe('GetClosestSitesAction', () => {
   it('gets the closest sites from the backend', () => {

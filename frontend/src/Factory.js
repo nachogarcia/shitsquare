@@ -1,9 +1,9 @@
-const APIService = require('./services/APIService.js')
-const IpLocationService = require('./services/IpLocationService.js')
-const GetClosestSitesAction = require('./actions/GetClosestSitesAction.js')
-const GetCurrentPositionAction = require('./actions/GetCurrentPositionAction.js')
-const RegisterAReviewAction = require('./actions/RegisterAReviewAction.js')
-const RegisterASiteAction = require('./actions/RegisterASiteAction.js')
+import APIService from './services/APIService.js'
+import IpLocationService from './services/IpLocationService.js'
+import GetClosestSitesAction from './actions/GetClosestSitesAction.js'
+import GetCurrentPositionAction from './actions/GetCurrentPositionAction.js'
+import RegisterAReviewAction from './actions/RegisterAReviewAction.js'
+import RegisterASiteAction from './actions/RegisterASiteAction.js'
 
 class Factory {
   createIpLocationService () {
@@ -17,24 +17,24 @@ class Factory {
   }
 
   createGetClosestSitesAction () {
-    this.getClosestSitesAction = this.getClosestSitesAction || GetClosestSitesAction()
+    this.getClosestSitesAction = this.getClosestSitesAction || GetClosestSitesAction(this.createAPIService())
     return this.getClosestSitesAction
   }
 
   createGetCurrentPositionAction () {
-    this.getCurrentPositionAction = this.getCurrentPositionAction || GetCurrentPositionAction()
+    this.getCurrentPositionAction = this.getCurrentPositionAction || GetCurrentPositionAction(this.createIpLocationService())
     return this.getCurrentPositionAction
   }
 
   createRegisterAReviewAction () {
-    this.registerAReviewAction = this.registerAReviewAction || RegisterAReviewAction()
+    this.registerAReviewAction = this.registerAReviewAction || RegisterAReviewAction(this.createAPIService())
     return this.registerAReviewAction
   }
 
   createRegisterASiteAction () {
-    this.registerASiteAction = this.registerASiteAction || RegisterASiteAction()
+    this.registerASiteAction = this.registerASiteAction || RegisterASiteAction(this.createAPIService())
     return this.registerASiteAction
   }
 }
 
-module.exports = Factory
+export default Factory

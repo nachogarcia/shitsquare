@@ -1,8 +1,8 @@
-import Factory from '../Factory.js'
-import { siteToMapCoordinates, mapToSiteCoordinates } from '../utils.js'
+import Factory from '../Factory'
+import { siteToMapCoordinates, mapToSiteCoordinates } from '../utils'
 
 const factory = new Factory()
-const getClosestSitesAction = fatory.createGetClosestSitesAction()
+const getClosestSitesAction = factory.createGetClosestSitesAction()
 const getCurrentPositionAction = factory.createGetCurrentPositionAction()
 
 import Vue from 'vue'

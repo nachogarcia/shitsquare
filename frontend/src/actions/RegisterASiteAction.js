@@ -14,4 +14,4 @@ function RegisterASiteAction (APIService) {
   return { run }
 }
 
-module.exports = RegisterASiteAction
+export default RegisterASiteAction

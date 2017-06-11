@@ -14,4 +14,4 @@ function GetClosestSitesAction (APIService) {
   return { run }
 }
 
-module.exports = GetClosestSitesAction
+export default GetClosestSitesAction

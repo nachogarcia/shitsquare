@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "test": "mocha --require test/helper.js --reporter spec $(find test -name '*.js') && standard"
+    "test": "mocha --require test/helper.js --reporter spec --compilers js:babel-register --require babel-polyfill $(find test -name '*.js') && standard"
   },
   "dependencies": {
     "autoprefixer": "^6.7.2",
@@ -73,6 +73,8 @@
     "not ie <= 8"
   ],
   "devDependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.0.2",
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^3.4.2",

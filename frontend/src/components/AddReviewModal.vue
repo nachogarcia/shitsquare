@@ -50,13 +50,15 @@
 </template>
 
 <script>
-  import { sendRegisterAReview } from "../actions.js";
+  import Factory from "../Factory.js"
+  const factory = new Factory()
+  const registerAReviewAction = factory.createRegisterAReviewAction()
 
   import { mapGetters } from 'vuex'
-  import Vue from 'vue';
+  import Vue from 'vue'
   import StarRating from 'vue-star-rating'
-  import VeeValidate, { Validator } from 'vee-validate';
-  import es from 'vee-validate/dist/locale/es';
+  import VeeValidate, { Validator } from 'vee-validate'
+  import es from 'vee-validate/dist/locale/es'
 
   es.attributes = {
       author: 'Autor',
@@ -106,7 +108,7 @@
 
       addReview () {
         let reviewToAdd = this.getReview();
-        sendRegisterAReview(reviewToAdd, this.currentSite.id).then((response) => {
+        registerAReviewAction.run(reviewToAdd, this.currentSite.id).then((response) => {
           this.currentSite.reviews.unshift(response)
         }).catch(error => { alert(error) });
       },

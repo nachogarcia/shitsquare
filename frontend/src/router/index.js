@@ -13,7 +13,7 @@ export default new Router({
     },
     {
       path: '/site',
-      component: Site,
+      component: Site
     }
   ]
 })

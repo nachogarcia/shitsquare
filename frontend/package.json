@@ -17,7 +17,9 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "test": "mocha --require test/helper.js --reporter spec --compilers js:babel-register --require babel-polyfill $(find test -name '*.js') && standard"
+    "unit": "mocha --require test/helper.js --compilers js:babel-register --require babel-polyfill 'test/actions' --recursive",
+    "integration": "mocha --require test/helper.js --compilers js:babel-register --require babel-polyfill 'test/services' --recursive",
+    "test": "npm run unit && npm run integration && standard"
   },
   "dependencies": {
     "autoprefixer": "^6.7.2",

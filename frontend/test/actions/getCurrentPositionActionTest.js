@@ -5,7 +5,6 @@ describe('GetCurrentPositionAction', () => {
     const IpLocationService = { run: () => Promise.resolve({latitude: 0, longitude: 0}) }
     sinon.spy(IpLocationService, 'run')
 
-    const coordinate = {}
     const action = GetCurrentPositionAction(IpLocationService)
 
     return action.run().then((position) => {

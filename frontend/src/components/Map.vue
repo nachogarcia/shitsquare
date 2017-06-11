@@ -18,10 +18,10 @@
 </template>
 
 <script>
-  import { siteToMapCoordinates } from "../utils.js"
-  import * as VueGoogleMaps from 'vue2-google-maps';
   import Vue from 'vue';
   import * as Vuex from 'vuex';
+  import * as VueGoogleMaps from 'vue2-google-maps';
+  import { siteToMapCoordinates } from "../utils.js"
 
   Vue.use(VueGoogleMaps, {
     load: { key: process.env.GMAP_API_KEY, }

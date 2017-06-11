@@ -10,7 +10,7 @@ describe('APIService', () => {
   it('returns a resolved promise with the result of the petition', () => {
     const method = 'getClosestSites'
     const id = '1'
-    const params = { coordinate: { x: 0, y: 0 }}
+    const params = {coordinate: { x: 0, y: 0 }}
     const body = { method, params, id }
 
     return service.run(body).then((response) => {

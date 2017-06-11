@@ -1,12 +1,12 @@
 import Factory from '../Factory'
-import { siteToMapCoordinates, mapToSiteCoordinates } from '../utils'
+import { mapToSiteCoordinates } from '../utils'
+
+import Vue from 'vue'
+import Vuex from 'vuex'
 
 const factory = new Factory()
 const getClosestSitesAction = factory.createGetClosestSitesAction()
 const getCurrentPositionAction = factory.createGetCurrentPositionAction()
-
-import Vue from 'vue'
-import Vuex from 'vuex'
 
 Vue.use(Vuex)
 

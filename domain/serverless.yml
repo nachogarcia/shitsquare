@@ -1,0 +1,47 @@
+service: shitsquare
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-west-2
+  timeout: 90
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+      - "ec2:CreateNetworkInterface"
+      - "ec2:DescribeNetworkInterfaces"
+      - "ec2:DetachNetworkInterface"
+      - "ec2:DeleteNetworkInterface"
+    Resource: "*"
+  vpc:
+    securityGroupIds:
+      - sg-a55572cc
+    subnetIds:
+      - subnet-3866e943
+      - subnet-8df550c0
+  environment:
+    DATABASE_URL: ${file(./serverless.env.yml):${opt:stage, self:provider.stage}.DATABASE_URL}
+
+functions:
+  registerASiteAction:
+    handler: serverlessHandlers.registerASiteAction
+    events:
+      - http:
+          path: registerASiteAction
+          method: post
+          cors: true
+
+  registerAReviewAction:
+    handler: serverlessHandlers.registerAReviewAction
+    events:
+      - http:
+          path: registerAReviewAction
+          method: post
+          cors: true
+
+  getClosestSitesAction:
+    handler: serverlessHandlers.getClosestSitesAction
+    events:
+      - http:
+          path: getClosestSitesAction
+          method: post
+          cors: true
